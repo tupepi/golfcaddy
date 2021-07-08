@@ -1,0 +1,19 @@
+POST http://localhost:3000/rounds/ HTTP/1.1
+content-type: application/json
+
+{
+    "date": "Wed, 21 Oct 2015 18:27:50: GMT",
+    "player": "60e6d43ad5a5c00ea0995ada",
+    "course":"60e6d43cd5a5c00ea0995adc",
+    "score": [
+        { "strokes": 2 },
+        { "strokes": 5 },
+        { "strokes": 5 },
+        { "strokes": 5 },
+        { "strokes": 5 },
+        { "strokes": 4 },
+        { "strokes": 5 },
+        { "strokes": 5 },
+        { "strokes": 4 }
+    ]
+}

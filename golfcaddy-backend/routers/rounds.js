@@ -7,7 +7,9 @@ const Round = require('../models/round.js')
 // eri http-pyyntöjen käsittelijät
 router.get('/', async (req, res) => {
     // rounds sisältää kaikki tietokannassa olevat kierrokset
-    const rounds = await Round.find({})
+    const rounds = await Round.find({}).populate('player', {
+        username: 1,
+    })
     res.json(rounds)
 })
 
@@ -20,10 +22,10 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     const newRound = new Round(req.body)
     // tallennetaan, varmistetaan että tallennus on ohi
-    const savedCourse = await newCourse.save()
+    const savedRound = await newRound.save()
     // haetaan pelaaja ja lisätään hänen kierroksiin juuri tallennettu
-    const player = await User.findById(savedCourse.player)
-    player.rounds = player.rounds.concat(savedCourse._id)
+    const player = await User.findById(savedRound.player)
+    player.rounds = player.rounds.concat(savedRound._id)
     await player.save()
     // vastataan pyytäjälle
     res.status(201).json(savedRound)

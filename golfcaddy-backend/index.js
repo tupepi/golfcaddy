@@ -20,6 +20,7 @@ mongoose.connect(mongoURL, {
 const port = 3000 // portin numero
 
 //
+app.use(express.json()) // pyyntöjen mukana tuleva Json-data muunnetaan js-olioksi
 app.use('/courses', courseRouter)
 app.use('/users', userRouter)
 app.use('/rounds', roundRouter)

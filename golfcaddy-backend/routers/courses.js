@@ -1,24 +1,6 @@
 // Tämä tiedosto vastaa ratoihin liittyvistä http-pyynnöistä
 const router = require('express').Router()
 const Course = require('../models/course.js')
-//luodaan testirata
-const courseSippulanniemi = new Course({
-    name: 'Jyväs-Golf',
-    pars: [
-        { par: 3 },
-        { par: 4 },
-        { par: 4 },
-        { par: 4 },
-        { par: 4 },
-        { par: 3 },
-        { par: 4 },
-        { par: 4 },
-        { par: 5 },
-    ],
-})
-
-//tallennetaan rata tietokantaan
-courseSippulanniemi.save()
 
 // eri http-pyyntöjen käsittelijät
 router.get('/', async (req, res) => {

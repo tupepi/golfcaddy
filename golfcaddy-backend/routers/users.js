@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     // user sisältää id:tä vastaavan käyttäjän
     const user = await User.findById(req.params.id.toString())
-    res.json(URLSearchParams)
+    res.json(user)
 })
 
 router.post('/', async (req, res) => {
