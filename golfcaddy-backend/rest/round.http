@@ -3,8 +3,8 @@ content-type: application/json
 
 {
     "date": "Wed, 21 Oct 2015 18:27:50: GMT",
-    "player": "60e6d43ad5a5c00ea0995ada",
-    "course":"60e6d43cd5a5c00ea0995adc",
+    "player": "60e8102d7a684e06bcd1e899",
+    "course":"60e810387a684e06bcd1e89b",
     "score": [
         { "strokes": 2 },
         { "strokes": 5 },
@@ -17,3 +17,8 @@ content-type: application/json
         { "strokes": 4 }
     ]
 }
+
+###
+
+DELETE http://localhost:3000/rounds/60e810677a684e06bcd1e8d1 HTTP/1.1
+content-type: application/json

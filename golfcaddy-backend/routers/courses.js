@@ -24,12 +24,22 @@ router.post('/', async (req, res) => {
     res.status(201).json(savedCourse)
 })
 
-router.put('/user', (req, res) => {
-    res.send('Got a PUT request at /user')
+router.put('/:id', async (req, res) => {
+    const course = req.body
+    const updatedCourse = await Course.findByIdAndUpdate(
+        req.params.id,
+        course,
+        {
+            new: true,
+        }
+    )
+    res.json(updatedCourse.toJSON())
 })
 
-router.delete('/user', (req, res) => {
-    res.send('Got a DELETE request at /user')
+router.delete('/:id', async (req, res) => {
+    const course = await Course.findById(req.params.id)
+    await course.remove()
+    res.status(204).end()
 })
 
 module.exports = router

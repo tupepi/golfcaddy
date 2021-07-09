@@ -31,4 +31,24 @@ router.post('/', async (req, res) => {
     res.status(201).json(savedRound)
 })
 
+router.put('/:id', async (req, res) => {
+    const round = req.body
+    const updatedRound = await Round.findByIdAndUpdate(req.params.id, round, {
+        new: true,
+    })
+    res.json(updatedRound.toJSON())
+})
+
+router.delete('/:id', async (req, res) => {
+    const round = await Round.findById(req.params.id)
+    const player = await User.findById(round.player)
+    // filteröidään pelaajan kierroksista pois poistettava
+    player.rounds = player.rounds.filter(r => {
+        return r._id.toString() !== round._id.toString()
+    })
+    await round.remove()
+    await player.save()
+    res.status(204).end()
+})
+
 module.exports = router

@@ -24,4 +24,11 @@ router.post('/', async (req, res) => {
     res.status(201).json(savedUser)
 })
 
+router.put('/:id', async (req, res) => {
+    const user = req.body
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, user, {
+        new: true,
+    })
+    res.json(updatedUser.toJSON())
+})
 module.exports = router
