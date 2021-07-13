@@ -21,10 +21,12 @@ const port = 3000 // portin numero
 
 //
 app.use(express.json()) // pyyntöjen mukana tuleva Json-data muunnetaan js-olioksi
+// Otetaan käyttöön eri polkujen http-pyyntöjen käsittelijät
 app.use('/courses', courseRouter)
 app.use('/users', userRouter)
 app.use('/rounds', roundRouter)
 
+// Käynnistetään sovellus
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
