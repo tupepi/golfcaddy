@@ -1,7 +1,13 @@
-const Mainmenu = () => {
+const Mainmenu = ({ enterScorecards, enterNewGame, enterCourses }) => {
     return (
         <div className='Mainmenu'>
-            <h2>Mainmenu</h2>
+            <h2>GolfCaddy</h2>
+            <div className='mainMenuButtons'>
+                <button onClick={enterNewGame}>New game</button>
+                <button>Resume game</button>
+                <button onClick={enterCourses}>Courses</button>
+                <button onClick={enterScorecards}>Scorecards</button>
+            </div>
         </div>
     )
 }
