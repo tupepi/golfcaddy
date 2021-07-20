@@ -26,7 +26,7 @@ const App = () => {
     // Joku fiksumpi juttu pitää kehitellä, kun on niin paljon toistoa
     return (
         <div className='App'>
-            <div style={{ display: displayMainmenu }}>
+            <div className='subMenuDiv' style={{ display: displayMainmenu }}>
                 <Mainmenu
                     enterScorecards={() => handleEnter(setDisplayScorecards)}
                     enterNewGame={() => handleEnter(setDisplayNewGame)}
@@ -34,19 +34,19 @@ const App = () => {
                 ></Mainmenu>
             </div>
 
-            <div style={{ display: displayScorecards }}>
+            <div className='subMenuDiv' style={{ display: displayScorecards }}>
                 <Scorecards
                     exitScorecards={() => handleExit(setDisplayScorecards)}
                 ></Scorecards>
             </div>
 
-            <div style={{ display: displayCourses }}>
+            <div className='subMenuDiv' style={{ display: displayCourses }}>
                 <Courses
                     exitCourses={() => handleExit(setDisplayCourses)}
                 ></Courses>
             </div>
 
-            <div style={{ display: displayNewGame }}>
+            <div className='subMenuDiv' style={{ display: displayNewGame }}>
                 <NewGame
                     exitNewGame={() => handleExit(setDisplayNewGame)}
                 ></NewGame>

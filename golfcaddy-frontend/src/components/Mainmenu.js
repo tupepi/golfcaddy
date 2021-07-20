@@ -1,7 +1,7 @@
 const Mainmenu = ({ enterScorecards, enterNewGame, enterCourses }) => {
     return (
         <div className='Mainmenu'>
-            <h2>GolfCaddy</h2>
+            <h1>GolfCaddy</h1>
             <div className='mainMenuButtons'>
                 <button onClick={enterNewGame}>New game</button>
                 <button>Resume game</button>
