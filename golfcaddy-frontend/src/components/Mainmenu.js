@@ -1,3 +1,4 @@
+/* Päävalikko, tämän avulla kerrotaan App.js:lle mitä komponentteja näytetään/piilotetaan */
 const Mainmenu = ({ enterScorecards, enterNewGame, enterCourses }) => {
     return (
         <div className='Mainmenu'>

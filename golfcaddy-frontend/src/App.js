@@ -1,3 +1,5 @@
+/* App.js hoitaa käyttöliittymän kokonaisuuden 
+hallitsemalla eri komponenttien näkyvyyttä */
 import { useState } from 'react'
 import Mainmenu from './components/Mainmenu'
 import Scorecards from './components/Scorecards'

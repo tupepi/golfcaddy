@@ -1,3 +1,4 @@
+/* Luo listauksen pelaajan pelaamista kierroksista */
 const Scorecards = ({ exitScorecards }) => {
     return (
         <div className='Scorecards'>

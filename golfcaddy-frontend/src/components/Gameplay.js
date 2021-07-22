@@ -1,10 +1,12 @@
+/* Gameplay-komponentti vastaa pelin aikaisesta pisteiden kirjanpidosta */
 import { useState } from 'react'
 const Gameplay = course => {
     const [currentHole, setCurrentHole] = useState(1)
     const [playerScore, setPlayerScore] = useState(
         course.course.pars.map(p => p.par)
     )
-
+    /* Käyttäjälle näytetään yksi väylä kerrallaan
+    ja näillä vaihdetaan yksi eteen tai taaksepäin */
     const handleIncreaseCurrentHole = () => {
         changeCurrentHole(1)
     }
@@ -17,6 +19,7 @@ const Gameplay = course => {
         setCurrentHole(currentHole + change)
     }
 
+    /* Pelaajan väylän pisteiden muuttamiseen */
     const handleIncreaseScore = () => {
         changeScore(1)
     }
