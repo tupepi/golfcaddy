@@ -37,17 +37,20 @@ const Gameplay = course => {
     }
 
     return (
-        <div>
-            <div>
-                <div>Par: {course.course.pars[currentHole - 1].par}</div>
-                <div>Hole: {currentHole}</div>
-                <button onClick={handleDecreaseCurrentHole}>&lt;</button>
-                <button onClick={handleIncreaseCurrentHole}>&gt;</button>
-            </div>
-            <div>
+        <div className='gamePlayDiv'>
+            <h2>{course.course.name}</h2>
+            <div className='holeScoreDiv'>
                 <div>Strokes: {playerScore[currentHole - 1]}</div>
                 <button onClick={handleDecreaseScore}>&lt;</button>
                 <button onClick={handleIncreaseScore}>&gt;</button>
+            </div>
+            <div className='holeInformationDiv'>
+                <div>
+                    <div>Hole: {currentHole}</div>
+                    <div>Par: {course.course.pars[currentHole - 1].par}</div>
+                </div>
+                <button onClick={handleDecreaseCurrentHole}>&lt;</button>
+                <button onClick={handleIncreaseCurrentHole}>&gt;</button>
             </div>
         </div>
     )

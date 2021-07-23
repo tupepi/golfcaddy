@@ -9,10 +9,12 @@ const Courses = ({ exitCourses }) => {
                     <div key={c.name}>{c.name}</div>
                 ))}
             </div>
-            <div>
-                <button>add new course</button>
-                <button onClick={exitCourses}>back</button>
-            </div>
+
+            <button>add new course</button>
+
+            <button className='backButton' onClick={exitCourses}>
+                back
+            </button>
         </div>
     )
 }

@@ -12,7 +12,29 @@ const App = () => {
     const [displayScorecards, setDisplayScorecards] = useState('none')
     const [displayCourses, setDisplayCourses] = useState('none')
     const [displayNewGame, setDisplayNewGame] = useState('none')
+    // Sovelluksen tiedossa täytyy olla, onko kierros käynnissä vai ei
+    // Tämä voisi olla ennemmin (tai myös) selaimen muistissa tallessa
+    const [currentCourse, setCurrentCourse] = useState(null)
 
+    const handleStartNewGame = course => {
+        setCurrentCourse(course)
+    }
+
+    // Jos yritetään aloittaa uutta kierrosta vanhan ollessa käynnissä.
+    const confirmNewRound = () => {
+        // jos kierros ei ole käynnissä, aloitetaan suoraa
+        if (!currentCourse) {
+            handleEnter(setDisplayNewGame)
+            return
+        }
+        // annetaan käyttäjän päättää aloitetaanko uusi vai ei
+        if (window.confirm('Start new round?')) {
+            setCurrentCourse(null)
+            handleEnter(setDisplayNewGame)
+        }
+    }
+
+    // komponenttien näkyvyys --------------------------------------
     // Muuttaa annetun kohdan näkyväksi
     const handleEnter = setDisplay => {
         setDisplayMainmenu('none')
@@ -24,14 +46,15 @@ const App = () => {
         setDisplayMainmenu('')
         setDisplay('none')
     }
-
+    //-------------------------------------------------------------------------
     // Joku fiksumpi juttu pitää kehitellä, kun on niin paljon toistoa
     return (
         <div className='App'>
             <div className='subMenuDiv' style={{ display: displayMainmenu }}>
                 <Mainmenu
                     enterScorecards={() => handleEnter(setDisplayScorecards)}
-                    enterNewGame={() => handleEnter(setDisplayNewGame)}
+                    enterNewGame={() => confirmNewRound()}
+                    enterCurrentGame={() => handleEnter(setDisplayNewGame)}
                     enterCourses={() => handleEnter(setDisplayCourses)}
                 ></Mainmenu>
             </div>
@@ -51,6 +74,8 @@ const App = () => {
             <div className='subMenuDiv' style={{ display: displayNewGame }}>
                 <NewGame
                     exitNewGame={() => handleExit(setDisplayNewGame)}
+                    enterNewGame={handleStartNewGame}
+                    currentCourse={currentCourse}
                 ></NewGame>
             </div>
         </div>
