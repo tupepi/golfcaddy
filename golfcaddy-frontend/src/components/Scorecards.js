@@ -1,9 +1,9 @@
 /* Luo listauksen pelaajan pelaamista kierroksista */
-const Scorecards = ({ exitScorecards }) => {
+const Scorecards = ({ exit }) => {
     return (
         <div className='Scorecards'>
             <h2>Scorecards</h2>
-            <button className='backButton' onClick={exitScorecards}>
+            <button className='backButton' onClick={exit}>
                 back
             </button>
         </div>

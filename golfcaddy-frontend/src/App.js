@@ -16,6 +16,7 @@ const App = () => {
     // Tämä voisi olla ennemmin (tai myös) selaimen muistissa tallessa
     const [currentCourse, setCurrentCourse] = useState(null)
 
+    // Asetetaan tämän hetkiseksi kierrokseksi annettu
     const handleStartNewGame = course => {
         setCurrentCourse(course)
     }
@@ -61,19 +62,17 @@ const App = () => {
 
             <div className='subMenuDiv' style={{ display: displayScorecards }}>
                 <Scorecards
-                    exitScorecards={() => handleExit(setDisplayScorecards)}
+                    exit={() => handleExit(setDisplayScorecards)}
                 ></Scorecards>
             </div>
 
             <div className='subMenuDiv' style={{ display: displayCourses }}>
-                <Courses
-                    exitCourses={() => handleExit(setDisplayCourses)}
-                ></Courses>
+                <Courses exit={() => handleExit(setDisplayCourses)}></Courses>
             </div>
 
             <div className='subMenuDiv' style={{ display: displayNewGame }}>
                 <NewGame
-                    exitNewGame={() => handleExit(setDisplayNewGame)}
+                    exit={() => handleExit(setDisplayNewGame)}
                     enterNewGame={handleStartNewGame}
                     currentCourse={currentCourse}
                 ></NewGame>

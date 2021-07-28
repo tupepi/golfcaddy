@@ -1,7 +1,16 @@
 /* Yksinkertaisesti vain listaus radoista, ja mahdollisuus lisätä niitä */
 import test_courses from '../ratoja'
-const Courses = ({ exitCourses }) => {
-    return (
+import { useState } from 'react'
+import NewCourse from './NewCourse'
+const Courses = ({ exit }) => {
+    const [showAddNewCourse, setShowAddNewCourse] = useState(false)
+    // Poistutaan radan lisäämis näkymästä
+    const exitAddNewCourse = () => {
+        setShowAddNewCourse(false)
+    }
+    return showAddNewCourse ? (
+        <NewCourse exit={exitAddNewCourse}></NewCourse>
+    ) : (
         <div className='Courses'>
             <h1>Courses</h1>
             <div className='courseListingDiv'>
@@ -10,9 +19,11 @@ const Courses = ({ exitCourses }) => {
                 ))}
             </div>
 
-            <button>add new course</button>
+            <button onClick={() => setShowAddNewCourse(!showAddNewCourse)}>
+                add new course
+            </button>
 
-            <button className='backButton' onClick={exitCourses}>
+            <button className='backButton' onClick={exit}>
                 back
             </button>
         </div>

@@ -1,17 +1,28 @@
 /* NewGame-komponentti luo listauksen pelattavista radoista, joista pelaaja voi aloittaa kierroksen */
 import test_courses from '../ratoja'
 import Gameplay from './Gameplay'
-const NewGame = ({ exitNewGame, enterNewGame, currentCourse }) => {
+import NewCourse from './NewCourse'
+
+import { useState } from 'react'
+const NewGame = ({ exit, enterNewGame, currentCourse }) => {
+    const [showAddNewCourse, setShowAddNewCourse] = useState(false)
     // Klikkaamalla rataa, alkaa pelaaminen
     const handleCourseClick = course => {
         enterNewGame(course)
     }
+    // Poistutaan radan lisäämis näkymästä
+    const exitAddNewCourse = () => {
+        setShowAddNewCourse(false)
+    }
 
-    // Jos kierros on käynnissä, renderöidään pelitilanne pelin aloitusvalikon sijaan
-    return currentCourse ? (
+    // Jos näytetään radanlisäämisnäkymä
+    return showAddNewCourse ? (
+        <NewCourse exit={exitAddNewCourse}></NewCourse>
+    ) : // Jos kierros on käynnissä, renderöidään pelitilanne pelin aloitusvalikon sijaan
+    currentCourse ? (
         <div style={{ height: '100%' }}>
             <Gameplay course={currentCourse}></Gameplay>
-            <button className='backButton' onClick={exitNewGame}>
+            <button className='backButton' onClick={exit}>
                 back
             </button>
         </div>
@@ -26,9 +37,11 @@ const NewGame = ({ exitNewGame, enterNewGame, currentCourse }) => {
                 ))}
             </div>
 
-            <button>add new course</button>
+            <button onClick={() => setShowAddNewCourse(!showAddNewCourse)}>
+                add new course
+            </button>
 
-            <button className='backButton' onClick={exitNewGame}>
+            <button className='backButton' onClick={exit}>
                 back
             </button>
         </div>
