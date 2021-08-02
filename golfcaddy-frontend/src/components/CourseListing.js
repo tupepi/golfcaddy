@@ -1,25 +1,35 @@
-/* NewGame-komponentti luo listauksen pelattavista radoista, joista pelaaja voi aloittaa kierroksen */
+/* Listaus radoista, ja mahdollisuus lisätä niitä käytetään pelkkään listaukseen ja myöhemmin muokkaamiseen
+sekä kierroksien aloittamiseen */
 import test_courses from '../ratoja'
-import Gameplay from './Gameplay'
-import NewCourse from './NewCourse'
-
 import { useState } from 'react'
-const NewGame = ({ exit, enterNewGame, currentCourse }) => {
+import NewCourse from './NewCourse'
+import Gameplay from './Gameplay'
+const CourseListing = ({ exit, enterNewGame, currentCourse }) => {
     const [showAddNewCourse, setShowAddNewCourse] = useState(false)
-    // Klikkaamalla rataa, alkaa pelaaminen
-    const handleCourseClick = course => {
-        enterNewGame(course)
-    }
+    // VÄLIAIKAISESTI TILAKSI
+    const [testCourses, setTestCourses] = useState(test_courses)
     // Poistutaan radan lisäämis näkymästä
     const exitAddNewCourse = () => {
         setShowAddNewCourse(false)
     }
 
+    const handleCourseClick = c => {
+        if (enterNewGame !== null) enterNewGame(c)
+    }
+    // lisätään uusi rata TODO: TIETOKANTAYHTEYS JA LISÄYS
+    const addNewCourse = course => {
+        const newCourses = [...test_courses]
+        newCourses.push(course)
+        setTestCourses(newCourses)
+    }
     // Jos näytetään radanlisäämisnäkymä
     return showAddNewCourse ? (
-        <NewCourse exit={exitAddNewCourse}></NewCourse>
+        <NewCourse
+            exit={exitAddNewCourse}
+            addCourse={course => addNewCourse(course)}
+        ></NewCourse>
     ) : // Jos kierros on käynnissä, renderöidään pelitilanne pelin aloitusvalikon sijaan
-    currentCourse ? (
+    currentCourse && enterNewGame !== null ? (
         <div style={{ height: '100%' }}>
             <Gameplay course={currentCourse}></Gameplay>
             <button className='backButton' onClick={exit}>
@@ -28,19 +38,17 @@ const NewGame = ({ exit, enterNewGame, currentCourse }) => {
         </div>
     ) : (
         <div className='NewGame'>
-            <h1>New Game</h1>
+            {enterNewGame ? <h1>New Game</h1> : <h1>Courses</h1>}
             <div className='courseListingDiv'>
-                {test_courses.map(c => (
+                {testCourses.map(c => (
                     <div key={c.name} onClick={() => handleCourseClick(c)}>
                         {c.name}
                     </div>
                 ))}
             </div>
-
             <button onClick={() => setShowAddNewCourse(!showAddNewCourse)}>
                 add new course
             </button>
-
             <button className='backButton' onClick={exit}>
                 back
             </button>
@@ -48,4 +56,4 @@ const NewGame = ({ exit, enterNewGame, currentCourse }) => {
     )
 }
 
-export default NewGame
+export default CourseListing

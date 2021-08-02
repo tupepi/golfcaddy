@@ -3,8 +3,7 @@ hallitsemalla eri komponenttien näkyvyyttä */
 import { useState } from 'react'
 import Mainmenu from './components/Mainmenu'
 import Scorecards from './components/Scorecards'
-import Courses from './components/Courses'
-import NewGame from './components/NewGame'
+import CourseListing from './components/CourseListing'
 
 const App = () => {
     // Eri alakohtien piilotteluun/näyttämiseen
@@ -67,15 +66,19 @@ const App = () => {
             </div>
 
             <div className='subMenuDiv' style={{ display: displayCourses }}>
-                <Courses exit={() => handleExit(setDisplayCourses)}></Courses>
+                <CourseListing
+                    exit={() => handleExit(setDisplayCourses)}
+                    enterNewGame={null}
+                    currentCourse={currentCourse}
+                ></CourseListing>
             </div>
 
             <div className='subMenuDiv' style={{ display: displayNewGame }}>
-                <NewGame
+                <CourseListing
                     exit={() => handleExit(setDisplayNewGame)}
                     enterNewGame={handleStartNewGame}
                     currentCourse={currentCourse}
-                ></NewGame>
+                ></CourseListing>
             </div>
         </div>
     )
