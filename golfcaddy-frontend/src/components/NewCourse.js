@@ -12,6 +12,7 @@ const NewCourse = ({ exit, addCourse }) => {
 
     // Muuttaessa radan pituutta, muuttuvat par:it
     const handleLengthChange = newLength => {
+        if (newLength <= 0) return
         if (newLength > courseLength) {
             // Jos väyliä lisätään lisätään yhtä monta par:ia
             const newPars = [...holePars]
@@ -29,7 +30,7 @@ const NewCourse = ({ exit, addCourse }) => {
     // Annetun väylän paria muutetaan
     const handleParChange = (hole, change) => {
         const newPars = holePars.map((p, i) =>
-            i + 1 === hole ? p + change : p
+            i + 1 === hole && p + change > 0 ? p + change : p
         )
         setHolePars(newPars)
     }
@@ -46,7 +47,7 @@ const NewCourse = ({ exit, addCourse }) => {
 
     return (
         <div className='NewCourse'>
-            <div>
+            <div className='NewCourseInfo'>
                 <form>
                     <label htmlFor='coursename'>Name</label>
                     <input
@@ -93,33 +94,38 @@ const NewCourse = ({ exit, addCourse }) => {
                     </div>
                 </div>
 
-                <div>
+                <div className='holeList'>
                     {holePars.map((h, i) => {
                         return (
-                            <div key={i}>
+                            <div key={i} className='holeInfo'>
                                 <div>
-                                    Hole {1 + i} Par: {h}
+                                    Hole {1 + i} <br></br>Par:
                                 </div>
-                                <button
-                                    onClick={() => {
-                                        handleParChange(1 + i, -1)
-                                    }}
-                                >
-                                    -
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        handleParChange(1 + i, 1)
-                                    }}
-                                >
-                                    +
-                                </button>
+                                <div className='holePar'>{h}</div>
+                                <div className='changeParButtons'>
+                                    <button
+                                        onClick={() => {
+                                            handleParChange(1 + i, -1)
+                                        }}
+                                    >
+                                        -
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            handleParChange(1 + i, 1)
+                                        }}
+                                    >
+                                        +
+                                    </button>
+                                </div>
                             </div>
                         )
                     })}
                 </div>
             </div>
-            <button onClick={saveCourse}>Save</button>
+            <button className='saveNewCourse' onClick={saveCourse}>
+                Save
+            </button>
             <button className='backButton' onClick={exit}>
                 back
             </button>

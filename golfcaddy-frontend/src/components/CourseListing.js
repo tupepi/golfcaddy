@@ -13,9 +13,11 @@ const CourseListing = ({ exit, enterNewGame, currentCourse }) => {
         setShowAddNewCourse(false)
     }
 
+    // Klikatessa radan nimeä. Jos ollaan yleisessä ratalistauksessa, ei tehdä mitään.
     const handleCourseClick = c => {
         if (enterNewGame !== null) enterNewGame(c)
     }
+
     // lisätään uusi rata TODO: TIETOKANTAYHTEYS JA LISÄYS
     const addNewCourse = course => {
         const newCourses = [...test_courses]
@@ -38,7 +40,13 @@ const CourseListing = ({ exit, enterNewGame, currentCourse }) => {
         </div>
     ) : (
         <div className='NewGame'>
-            {enterNewGame ? <h1>New Game</h1> : <h1>Courses</h1>}
+            {
+                /* Otsikon valinta tilanteen mukaan */ enterNewGame ? (
+                    <h1>New Game</h1>
+                ) : (
+                    <h1>Courses</h1>
+                )
+            }
             <div className='courseListingDiv'>
                 {testCourses.map(c => (
                     <div key={c.name} onClick={() => handleCourseClick(c)}>
