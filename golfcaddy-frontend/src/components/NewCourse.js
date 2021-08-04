@@ -59,9 +59,9 @@ const NewCourse = ({ exit, addCourse }) => {
                     ></input>
                 </form>
 
-                <div>
+                <div className='courseLengthInfo'>
                     <div>Number of holes: {courseLength}</div>
-                    <div>
+                    <div className='changeLengthButtons'>
                         <button
                             onClick={() => {
                                 handleLengthChange(18)
@@ -98,9 +98,7 @@ const NewCourse = ({ exit, addCourse }) => {
                     {holePars.map((h, i) => {
                         return (
                             <div key={i} className='holeInfo'>
-                                <div>
-                                    Hole {1 + i} <br></br>Par:
-                                </div>
+                                <div>Hole {1 + i} Par:</div>
                                 <div className='holePar'>{h}</div>
                                 <div className='changeParButtons'>
                                     <button
@@ -122,10 +120,10 @@ const NewCourse = ({ exit, addCourse }) => {
                         )
                     })}
                 </div>
+                <button className='saveNewCourse' onClick={saveCourse}>
+                    Save
+                </button>
             </div>
-            <button className='saveNewCourse' onClick={saveCourse}>
-                Save
-            </button>
             <button className='backButton' onClick={exit}>
                 back
             </button>

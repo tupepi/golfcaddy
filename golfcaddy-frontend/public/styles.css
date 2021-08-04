@@ -46,11 +46,7 @@ html,
     align-items: center;
     flex-direction: column;
 }
-/* .Courses button,
-.NewGame button {
-    height: 50%;
-    width: 100%;
-} */
+
 .courseListingDiv {
     height: 50%;
     display: flex;
@@ -70,83 +66,146 @@ html,
     justify-content: space-between;
     height: 100%;
 }
-
 .holeScoreDiv {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 95%;
+    height: 25%;
 }
-.holeInformationDiv {
-    display: flex;
+.holeScoreDiv > * {
+    font-size: large;
+    width: 25%;
+    text-align: center;
+    height: 100%;
 }
 
-/* radan lisäys lomake -------------------------- */
-.NewCourse {
+.currentHoleScore {
+    height: 50%;
+    font-size: 5rem;
+}
+
+.holeInformationDiv {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 15%;
+}
+.holeInformationDiv > * {
+    font-size: large;
     height: 100%;
+    width: 33%;
+}
+.holeInformationDiv > button {
+    margin-right: 2%;
+}
+
+.holeNumberAndPar {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 }
 
-.NewCourseInfo {
+/* radan lisäys lomake -------------------------- */
+/* Koko lomakkeen divi */
+.NewCourse {
     height: 100%;
+}
+/* Kaikki paitsi back-näppäin */
+.NewCourseInfo {
+    padding-top: 5%;
+    height: 95%;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: flex-start;
+}
+/* Radan pituuden divi */
+.courseLengthInfo {
+    text-align: center;
+    font-size: large;
+    width: 90%;
+    height: 5%;
+    min-height: 30px;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
 }
-
+/* Radan pituuden säädöt */
+.changeLengthButtons {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    height: 100%;
+}
+/* Yksittäiset napit radan pituuden säädössä */
+.changeLengthButtons button {
+    height: 100%;
+    min-width: 20%;
+    max-width: 20%;
+}
+/* yksittäisen väylän tietojen divi */
 .holeInfo {
-    min-height: 15%;
+    height: 25%;
     font-size: 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
-
+/* kolme eri diviä jotka täyttävät holeInfon: 
+1. "Hole 1 Par:"
+2. "3"
+3. "+-"
+*/
 .holeInfo > div {
-    min-width: 33%;
+    width: 33%;
 }
-
-.saveNewCourse {
-    position: fixed;
-    margin: 5%;
-    bottom: 0;
-    left: 25%;
-    width: 50%;
-    height: 5%;
-}
+/* Väylälistauksen kokonaisuus */
 .holeList {
     padding: 2%;
-    width: 90%;
-    max-height: 70%;
-    min-height: 70%;
+    width: 95%;
+    max-height: 60%;
+    min-height: 60%;
     overflow: scroll;
     border: solid;
     border-radius: 5px;
-    margin-bottom: 15%;
+    align-self: center;
 
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
-.changeParButtons button {
-    font-size: 100%;
-}
+/* divi väylän parin näyttämiseen */
 .holePar {
     font-size: 30px;
+    margin: 1%;
 }
+/* Divi napeille, joilla säädetään väylän paria */
 .changeParButtons {
-    width: 40%;
+    max-width: 150px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+}
+/* Napit joilla säädetään väylän paria */
+.changeParButtons button {
+    font-size: 100%;
+    min-width: 30px;
+}
+
+/* Lomakkeen tallennusnappi */
+.saveNewCourse {
+    width: 50%;
+    height: 5%;
+    align-self: center;
 }
 /* -------------------------- */
 
 .backButton {
     position: fixed;
-    margin: 2%;
+    height: 5%;
     top: 0;
     left: 0;
 }
