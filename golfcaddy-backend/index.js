@@ -8,6 +8,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 require('dotenv').config() // dotenv:in avulla ei tarvitse komentoriviltä välittää tietokannan kirjautumistietoja vaan ".env"-tiedostosta
+const cors = require('cors')
 
 // Tietokanta
 // yhdistetään tietokantaan
@@ -17,14 +18,15 @@ mongoose.connect(mongoURL, {
     useUnifiedTopology: true,
 })
 
-const port = 3000 // portin numero
+const port = 3001 // portin numero
 
+app.use(cors())
 //
 app.use(express.json()) // pyyntöjen mukana tuleva Json-data muunnetaan js-olioksi
 // Otetaan käyttöön eri polkujen http-pyyntöjen käsittelijät
-app.use('/courses', courseRouter)
-app.use('/users', userRouter)
-app.use('/rounds', roundRouter)
+app.use('/api/courses', courseRouter)
+app.use('/api/users', userRouter)
+app.use('/api/rounds', roundRouter)
 
 // Käynnistetään sovellus
 app.listen(port, () => {

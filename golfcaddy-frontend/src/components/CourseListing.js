@@ -1,14 +1,17 @@
 /* Listaus radoista, ja mahdollisuus lisätä niitä käytetään pelkkään listaukseen ja myöhemmin muokkaamiseen
 sekä kierroksien aloittamiseen */
-import test_courses from '../ratoja'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import NewCourse from './NewCourse'
 import Gameplay from './Gameplay'
+import coursesService from '../services/courses'
+
 const CourseListing = ({ exit, enterNewGame, currentCourse }) => {
     const [showAddNewCourse, setShowAddNewCourse] = useState(false)
-    // VÄLIAIKAISESTI TILAKSI
-    const [testCourses, setTestCourses] = useState(test_courses)
-    // Poistutaan radan lisäämis näkymästä
+    const [courses, setCourses] = useState([])
+    useEffect(() => {
+        coursesService.getAll().then(courses => setCourses(courses))
+    }, [])
+    // Poistutaan radan lisäämisnäkymästä
     const exitAddNewCourse = () => {
         setShowAddNewCourse(false)
     }
@@ -18,11 +21,11 @@ const CourseListing = ({ exit, enterNewGame, currentCourse }) => {
         if (enterNewGame !== null) enterNewGame(c)
     }
 
-    // lisätään uusi rata TODO: TIETOKANTAYHTEYS JA LISÄYS
-    const addNewCourse = course => {
-        const newCourses = [...test_courses]
-        newCourses.push(course)
-        setTestCourses(newCourses)
+    // lisätään uusi rata
+    const addNewCourse = async course => {
+        const newCourse = await coursesService.create(course)
+        setCourses(courses.concat(newCourse))
+        exitAddNewCourse()
     }
     // Jos näytetään radanlisäämisnäkymä
     return showAddNewCourse ? (
@@ -48,7 +51,7 @@ const CourseListing = ({ exit, enterNewGame, currentCourse }) => {
                 )
             }
             <div className='courseListingDiv'>
-                {testCourses.map(c => (
+                {courses.map(c => (
                     <div key={c.name} onClick={() => handleCourseClick(c)}>
                         {c.name}
                     </div>

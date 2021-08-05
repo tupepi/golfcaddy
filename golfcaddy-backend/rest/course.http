@@ -1,4 +1,4 @@
-POST http://localhost:3000/courses/ HTTP/1.1
+POST http://localhost:3001/api/courses/ HTTP/1.1
 content-type: application/json
 
 {
@@ -19,4 +19,4 @@ content-type: application/json
 ###
 
 
-DELETE http://localhost:3000/courses/60e6d43cd5a5c00ea0995adc
+DELETE http://localhost:3001/api/courses/610bb3c888868935d0041c05

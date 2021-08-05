@@ -11,6 +11,7 @@ const App = () => {
     const [displayScorecards, setDisplayScorecards] = useState('none')
     const [displayCourses, setDisplayCourses] = useState('none')
     const [displayNewGame, setDisplayNewGame] = useState('none')
+
     // Sovelluksen tiedossa täytyy olla, onko kierros käynnissä vai ei
     // Tämä voisi olla ennemmin (tai myös) selaimen muistissa tallessa
     const [currentCourse, setCurrentCourse] = useState(null)

@@ -148,7 +148,6 @@ html,
 }
 /* yksittäisen väylän tietojen divi */
 .holeInfo {
-    height: 25%;
     font-size: 20px;
     display: flex;
     flex-direction: row;
