@@ -1,16 +1,18 @@
 /* Listaus radoista, ja mahdollisuus lisätä niitä käytetään pelkkään listaukseen ja myöhemmin muokkaamiseen
 sekä kierroksien aloittamiseen */
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import NewCourse from './NewCourse'
 import Gameplay from './Gameplay'
-import coursesService from '../services/courses'
 
-const CourseListing = ({ exit, enterNewGame, currentCourse }) => {
+const CourseListing = ({
+    exit,
+    enterNewGame,
+    currentCourse,
+    addNewCourse,
+    courses,
+}) => {
     const [showAddNewCourse, setShowAddNewCourse] = useState(false)
-    const [courses, setCourses] = useState([])
-    useEffect(() => {
-        coursesService.getAll().then(courses => setCourses(courses))
-    }, [])
+
     // Poistutaan radan lisäämisnäkymästä
     const exitAddNewCourse = () => {
         setShowAddNewCourse(false)
@@ -21,17 +23,16 @@ const CourseListing = ({ exit, enterNewGame, currentCourse }) => {
         if (enterNewGame !== null) enterNewGame(c)
     }
 
-    // lisätään uusi rata
-    const addNewCourse = async course => {
-        const newCourse = await coursesService.create(course)
-        setCourses(courses.concat(newCourse))
+    // lisätään uusi rata, ja piilotetaan lisäyslomake
+    const handleAddNewCourse = async course => {
         exitAddNewCourse()
+        await addNewCourse(course)
     }
     // Jos näytetään radanlisäämisnäkymä
     return showAddNewCourse ? (
         <NewCourse
             exit={exitAddNewCourse}
-            addCourse={course => addNewCourse(course)}
+            addCourse={course => handleAddNewCourse(course)}
         ></NewCourse>
     ) : // Jos kierros on käynnissä, renderöidään pelitilanne pelin aloitusvalikon sijaan
     currentCourse && enterNewGame !== null ? (

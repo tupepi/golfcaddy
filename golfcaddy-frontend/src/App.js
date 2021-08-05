@@ -1,9 +1,11 @@
 /* App.js hoitaa käyttöliittymän kokonaisuuden 
 hallitsemalla eri komponenttien näkyvyyttä */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Mainmenu from './components/Mainmenu'
 import Scorecards from './components/Scorecards'
 import CourseListing from './components/CourseListing'
+
+import coursesService from './services/courses'
 
 const App = () => {
     // Eri alakohtien piilotteluun/näyttämiseen
@@ -11,6 +13,12 @@ const App = () => {
     const [displayScorecards, setDisplayScorecards] = useState('none')
     const [displayCourses, setDisplayCourses] = useState('none')
     const [displayNewGame, setDisplayNewGame] = useState('none')
+
+    // Kaikki radat listassa
+    const [courses, setCourses] = useState([])
+    useEffect(() => {
+        coursesService.getAll().then(courses => setCourses(courses))
+    }, [])
 
     // Sovelluksen tiedossa täytyy olla, onko kierros käynnissä vai ei
     // Tämä voisi olla ennemmin (tai myös) selaimen muistissa tallessa
@@ -35,6 +43,11 @@ const App = () => {
         }
     }
 
+    // lisätään uusi rata
+    const addNewCourse = async course => {
+        const newCourse = await coursesService.create(course)
+        setCourses(courses.concat(newCourse))
+    }
     // komponenttien näkyvyys --------------------------------------
     // Muuttaa annetun kohdan näkyväksi
     const handleEnter = setDisplay => {
@@ -71,6 +84,8 @@ const App = () => {
                     exit={() => handleExit(setDisplayCourses)}
                     enterNewGame={null}
                     currentCourse={currentCourse}
+                    addNewCourse={addNewCourse}
+                    courses={courses}
                 ></CourseListing>
             </div>
 
@@ -79,6 +94,8 @@ const App = () => {
                     exit={() => handleExit(setDisplayNewGame)}
                     enterNewGame={handleStartNewGame}
                     currentCourse={currentCourse}
+                    addNewCourse={addNewCourse}
+                    courses={courses}
                 ></CourseListing>
             </div>
         </div>
