@@ -8,9 +8,11 @@ const Round = require('../models/round.js')
 // Palauttaa kaikki kierrokset
 router.get('/', async (req, res) => {
     // rounds sisältää kaikki tietokannassa olevat kierrokset
-    const rounds = await Round.find({}).populate('player', {
-        username: 1,
-    })
+    const rounds = await Round.find({})
+        .populate('player', {
+            username: 1,
+        })
+        .populate('course', { name: 1 })
     res.json(rounds)
 })
 
