@@ -1,13 +1,6 @@
 /* Luo listauksen pelaajan pelaamista kierroksista */
-import { useState, useEffect } from 'react'
-import roundsService from '../services/rounds'
-import coursesService from '../services/courses'
-const Scorecards = ({ exit }) => {
-    // Kaikki pelatut kierrokset listassa
-    const [rounds, setRounds] = useState([])
-    useEffect(() => {
-        roundsService.getAll().then(rounds => setRounds(rounds))
-    }, [])
+/* import { useState, useEffect } from 'react' */
+const Scorecards = ({ exit, rounds }) => {
     return (
         <div className='Scorecards'>
             <h2>Scorecards</h2>

@@ -107,6 +107,13 @@ html,
     justify-content: center;
 }
 
+.finishRound {
+    position: fixed;
+    height: 5%;
+    top: 0;
+    right: 0;
+}
+
 /* radan lisäys lomake -------------------------- */
 /* Koko lomakkeen divi */
 .NewCourse {

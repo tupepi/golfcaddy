@@ -16,7 +16,34 @@ content-type: application/json
     ]
 }
 
-###
+###     
+
+POST http://localhost:3001/api/courses/ HTTP/1.1
+content-type: application/json
+
+{
+        "name": "Muurame Golf",
+        "pars": [
+            { "par": 5 },
+            { "par": 4 },
+            { "par": 3 },
+            { "par": 4 },
+            { "par": 3 },
+            { "par": 5 },
+            { "par": 4 },
+            { "par": 3 },
+            { "par": 4 },
+            { "par": 4 },
+            { "par": 5 },
+            { "par": 4 },
+            { "par": 3 },
+            { "par": 4 },
+            { "par": 3 },
+            { "par": 5 },
+            { "par": 4 },
+            { "par": 4 },
+        ],
+    },
 
 
 DELETE http://localhost:3001/api/courses/610bb3c888868935d0041c05

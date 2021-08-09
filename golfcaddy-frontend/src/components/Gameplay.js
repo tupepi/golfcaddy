@@ -1,13 +1,18 @@
 /* Gameplay-komponentti vastaa pelin aikaisesta pisteiden kirjanpidosta */
-import { useState } from 'react'
-const Gameplay = course => {
+import { useState, useEffect } from 'react'
+
+const Gameplay = ({ course, currentTime, saveScore }) => {
     const [currentHole, setCurrentHole] = useState(1)
-    const [playerScore, setPlayerScore] = useState(
+    const [playerScore, setPlayerScore] = useState([])
+    useEffect(() => {
         // Asetetaan ensimmäiselle väylälle tulokseksi oletuksena Par, muille NaN
-        course.course.pars.map((p, index) =>
-            index === 0 ? course.course.pars[0].par : NaN
+        setPlayerScore(
+            course.pars.map((p, index) =>
+                index === 0 ? course.pars[0].par : NaN
+            )
         )
-    )
+    }, [course.pars])
+
     /* Käyttäjälle näytetään yksi väylä kerrallaan
     ja näillä vaihdetaan yksi eteen tai taaksepäin */
     const handleIncreaseCurrentHole = () => {
@@ -18,13 +23,13 @@ const Gameplay = course => {
     }
     const changeCurrentHole = change => {
         if (currentHole === 1 && change < 0) return
-        if (currentHole === course.course.pars.length && change > 0) return
+        if (currentHole === course.pars.length && change > 0) return
         const newHole = currentHole + change
         setCurrentHole(newHole)
         // Uudelle väylälle siirtyessä muutetaan oletuspisteeksi väylän par
         if (change >= 1) {
             const newScore = playerScore.map((s, i) =>
-                i === newHole - 1 ? course.course.pars[newHole - 1].par : s
+                i === newHole - 1 ? course.pars[newHole - 1].par : s
             )
             setPlayerScore(newScore)
         }
@@ -48,18 +53,24 @@ const Gameplay = course => {
         })
         setPlayerScore(newScore)
     }
+
+    // Kierroksen lopetus
+    const handleFinishRound = () => {
+        saveScore(playerScore, currentTime)
+    }
+
     // Lasketaan pelattujen väylien lyönnit yhteen
     const countTotalScore = () => {
         return playerScore.reduce((a, b) => {
             if (isNaN(b)) return a
             return a + b
-        })
+        }, 0)
     }
     // Lasketaan suhteellinen tulos pelatuille väylille
     const countRelativeScore = () => {
         return playerScore.reduce((a, b, index) => {
             if (isNaN(b)) return a
-            return a + b - course.course.pars[index].par
+            return a + b - course.pars[index].par
         }, 0)
     }
     // Muuta nätimpään muotoon suhteellinen tulos
@@ -71,7 +82,10 @@ const Gameplay = course => {
 
     return (
         <div className='gamePlayDiv'>
-            <h2>{course.course.name}</h2>
+            <button className='finishRound' onClick={handleFinishRound}>
+                finish round
+            </button>
+            <h2>{course.name}</h2>
             <div className='holeScoreDiv'>
                 <button onClick={handleDecreaseScore}>-</button>
                 <div className='currentHoleScore'>
@@ -82,7 +96,7 @@ const Gameplay = course => {
             <div className='holeInformationDiv'>
                 <div className='holeNumberAndPar'>
                     <div>Hole: {currentHole}</div>
-                    <div>Par: {course.course.pars[currentHole - 1].par}</div>
+                    <div>Par: {course.pars[currentHole - 1].par}</div>
                     <div>
                         Score: {countTotalScore()} (
                         {formalizeRelativeScore(countRelativeScore())})

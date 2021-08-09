@@ -3,13 +3,13 @@ sekä kierroksien aloittamiseen */
 import { useState } from 'react'
 import NewCourse from './NewCourse'
 import Gameplay from './Gameplay'
-
 const CourseListing = ({
     exit,
     enterNewGame,
     currentCourse,
     addNewCourse,
     courses,
+    saveScore,
 }) => {
     const [showAddNewCourse, setShowAddNewCourse] = useState(false)
 
@@ -28,6 +28,7 @@ const CourseListing = ({
         exitAddNewCourse()
         await addNewCourse(course)
     }
+
     // Jos näytetään radanlisäämisnäkymä
     return showAddNewCourse ? (
         <NewCourse
@@ -37,7 +38,11 @@ const CourseListing = ({
     ) : // Jos kierros on käynnissä, renderöidään pelitilanne pelin aloitusvalikon sijaan
     currentCourse && enterNewGame !== null ? (
         <div style={{ height: '100%' }}>
-            <Gameplay course={currentCourse}></Gameplay>
+            <Gameplay
+                course={currentCourse}
+                currentTime={new Date()}
+                saveScore={saveScore}
+            ></Gameplay>
             <button className='backButton' onClick={exit}>
                 back
             </button>

@@ -14,7 +14,7 @@ const roundSchema = new mongoose.Schema({
         ref: 'Course',
     },
     // saatu tulos
-    score: [{ strokes: Number }],
+    score: [{ type: Number }],
 })
 const Round = mongoose.model('Round', roundSchema)
 module.exports = Round

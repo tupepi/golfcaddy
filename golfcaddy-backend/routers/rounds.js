@@ -33,7 +33,14 @@ router.post('/', async (req, res) => {
     player.rounds = player.rounds.concat(savedRound._id)
     await player.save()
     // vastataan pyytäjälle
-    res.status(201).json(savedRound)
+    res.status(201).json(
+        await savedRound
+            .populate('player', {
+                username: 1,
+            })
+            .populate('course', { name: 1 })
+            .execPopulate()
+    )
 })
 
 // Muokkaa id:tä vastaavaa kierrosta
