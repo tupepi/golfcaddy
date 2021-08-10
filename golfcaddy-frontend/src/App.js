@@ -3,7 +3,6 @@ hallitsemalla eri komponenttien näkyvyyttä */
 import { useState, useEffect } from 'react'
 import Mainmenu from './components/Mainmenu'
 import Scorecards from './components/Scorecards'
-import Scorecard from './components/Scorecard'
 import CourseListing from './components/CourseListing'
 
 import roundsService from './services/rounds'

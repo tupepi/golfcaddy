@@ -1,4 +1,4 @@
-/* Luo listauksen pelaajan pelaamista kierroksista */
+/* Näyttää yhden pelatun kierroksen tiedot */
 /* import { useState, useEffect } from 'react' */
 const Scorecard = ({ scorecard }) => {
     return scorecard ? (
