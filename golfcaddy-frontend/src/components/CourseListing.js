@@ -1,53 +1,45 @@
 /* Listaus radoista, ja mahdollisuus lisätä niitä käytetään pelkkään listaukseen ja myöhemmin muokkaamiseen
 sekä kierroksien aloittamiseen */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import NewCourse from './NewCourse'
 import Gameplay from './Gameplay'
-const CourseListing = ({
-    exit,
-    enterNewGame,
-    currentCourse,
-    addNewCourse,
-    courses,
-    saveScore,
-}) => {
-    const [showAddNewCourse, setShowAddNewCourse] = useState(false)
+import coursesService from '../services/courses'
+const CourseListing = ({ enterNewGame, addNewCourse, saveScore, enter }) => {
+    const [courses, setCourses] = useState([])
+    useEffect(() => {
+        coursesService.getAll().then(courses => setCourses(courses))
+    }, [])
 
-    // Poistutaan radan lisäämisnäkymästä
-    const exitAddNewCourse = () => {
-        setShowAddNewCourse(false)
+    const handleClickAddNewCourse = () => {
+        enter(
+            <NewCourse
+                addCourse={course => handleAddNewCourse(course)}
+            ></NewCourse>
+        )
     }
 
     // Klikatessa radan nimeä. Jos ollaan yleisessä ratalistauksessa, ei tehdä mitään.
     const handleCourseClick = c => {
-        if (enterNewGame !== null) enterNewGame(c)
+        if (enterNewGame !== null)
+            enter(
+                <div style={{ height: '100%' }}>
+                    <Gameplay
+                        course={c}
+                        currentTime={new Date()}
+                        saveScore={saveScore}
+                    ></Gameplay>
+                </div>
+            )
     }
 
     // lisätään uusi rata, ja piilotetaan lisäyslomake
     const handleAddNewCourse = async course => {
-        exitAddNewCourse()
         await addNewCourse(course)
+        // poistutaan toistaiseksi näin
+        document.getElementsByClassName('backButton')[0].click()
     }
 
-    // Jos näytetään radanlisäämisnäkymä
-    return showAddNewCourse ? (
-        <NewCourse
-            exit={exitAddNewCourse}
-            addCourse={course => handleAddNewCourse(course)}
-        ></NewCourse>
-    ) : // Jos kierros on käynnissä, renderöidään pelitilanne pelin aloitusvalikon sijaan
-    currentCourse && enterNewGame !== null ? (
-        <div style={{ height: '100%' }}>
-            <Gameplay
-                course={currentCourse}
-                currentTime={new Date()}
-                saveScore={saveScore}
-            ></Gameplay>
-            <button className='backButton' onClick={exit}>
-                back
-            </button>
-        </div>
-    ) : (
+    return (
         <div className='NewGame'>
             {
                 /* Otsikon valinta tilanteen mukaan */ enterNewGame ? (
@@ -63,11 +55,8 @@ const CourseListing = ({
                     </div>
                 ))}
             </div>
-            <button onClick={() => setShowAddNewCourse(!showAddNewCourse)}>
+            <button onClick={() => handleClickAddNewCourse()}>
                 add new course
-            </button>
-            <button className='backButton' onClick={exit}>
-                back
             </button>
         </div>
     )

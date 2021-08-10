@@ -1,20 +1,18 @@
 /* Luo listauksen pelaajan pelaamista kierroksista */
-import { useState } from 'react'
 import Scorecard from './Scorecard'
-/* import { useState, useEffect } from 'react' */
-const Scorecards = ({ exit, rounds }) => {
-    const [scorecardToShow, setScorecardToShow] = useState(null)
+const Scorecards = ({ enter, rounds }) => {
+    const handleClickRound = r => {
+        enter(<Scorecard scorecard={r}></Scorecard>)
+    }
 
-    return scorecardToShow ? (
-        <Scorecard scorecard={scorecardToShow}></Scorecard>
-    ) : (
+    return (
         <div className='Scorecards'>
             <h2>Scorecards</h2>
             <div className='scorecardListingDiv'>
                 {rounds.map(r => (
                     <div
                         key={r.date + r.player._id}
-                        onClick={() => setScorecardToShow(r)}
+                        onClick={() => handleClickRound(r)}
                     >
                         {r.course.name}
                         <br></br>
@@ -22,9 +20,6 @@ const Scorecards = ({ exit, rounds }) => {
                     </div>
                 ))}
             </div>
-            <button className='backButton' onClick={exit}>
-                back
-            </button>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 /* Radan lisäämislomake */
 import { useState } from 'react'
-const NewCourse = ({ exit, addCourse }) => {
+const NewCourse = ({ addCourse }) => {
     // Radan pituus
     const [courseLength, setCourseLength] = useState(18)
     // radan nimi
@@ -124,9 +124,6 @@ const NewCourse = ({ exit, addCourse }) => {
                     Save
                 </button>
             </div>
-            <button className='backButton' onClick={exit}>
-                back
-            </button>
         </div>
     )
 }

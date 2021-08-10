@@ -56,7 +56,7 @@ const Gameplay = ({ course, currentTime, saveScore }) => {
 
     // Kierroksen lopetus
     const handleFinishRound = () => {
-        saveScore(playerScore, currentTime)
+        saveScore(course, playerScore, currentTime)
     }
 
     // Lasketaan pelattujen väylien lyönnit yhteen
