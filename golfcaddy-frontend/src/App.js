@@ -5,7 +5,7 @@ import Mainmenu from './components/Mainmenu'
 const App = () => {
     // Kirjautunut käyttäjä, toistaiseksi kiinteästi
     const [loggedUser /* , setLoggedUser */] = useState(
-        '60e8102d7a684e06bcd1e899'
+        '6113940d72599a2684ded7e5'
     )
 
     return (

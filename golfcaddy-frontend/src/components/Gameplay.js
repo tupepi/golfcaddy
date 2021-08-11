@@ -1,9 +1,10 @@
 /* Gameplay-komponentti vastaa pelin aikaisesta pisteiden kirjanpidosta */
 import { useState, useEffect } from 'react'
 
-const Gameplay = ({ course, currentTime, saveScore }) => {
+const Gameplay = ({ currentTime, saveScore, resumeGame }) => {
     const [currentHole, setCurrentHole] = useState(1)
     const [playerScore, setPlayerScore] = useState([])
+    const course = JSON.parse(localStorage.getItem('currentCourse'))
     useEffect(() => {
         // Asetetaan ensimmäiselle väylälle tulokseksi oletuksena Par, muille NaN
         setPlayerScore(
@@ -11,8 +12,16 @@ const Gameplay = ({ course, currentTime, saveScore }) => {
                 index === 0 ? course.pars[0].par : NaN
             )
         )
-    }, [course.pars])
+    }, [course.pars, course])
 
+    useEffect(() => {
+        // Päivitetään selaimen muistiin pisteet, jotta voidaan jatkaa vaikka poistuttaisiin
+        if (!resumeGame) {
+            localStorage.setItem('currentScore', JSON.stringify(playerScore))
+            return
+        }
+        setPlayerScore(JSON.parse(localStorage.getItem('currentScore')))
+    }, [playerScore, resumeGame])
     /* Käyttäjälle näytetään yksi väylä kerrallaan
     ja näillä vaihdetaan yksi eteen tai taaksepäin */
     const handleIncreaseCurrentHole = () => {

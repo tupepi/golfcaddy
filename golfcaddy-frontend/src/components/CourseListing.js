@@ -20,16 +20,16 @@ const CourseListing = ({ enterNewGame, addNewCourse, saveScore, enter }) => {
 
     // Klikatessa radan nimeä. Jos ollaan yleisessä ratalistauksessa, ei tehdä mitään.
     const handleCourseClick = c => {
-        if (enterNewGame !== null)
+        if (enterNewGame) {
+            localStorage.setItem('currentCourse', JSON.stringify(c))
             enter(
-                <div style={{ height: '100%' }}>
-                    <Gameplay
-                        course={c}
-                        currentTime={new Date()}
-                        saveScore={saveScore}
-                    ></Gameplay>
-                </div>
+                <Gameplay
+                    resumeGame={false}
+                    currentTime={new Date()}
+                    saveScore={saveScore}
+                ></Gameplay>
             )
+        }
     }
 
     // lisätään uusi rata, ja piilotetaan lisäyslomake

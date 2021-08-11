@@ -1,14 +1,13 @@
 /* Päävalikko, hoitaa eri alivalikoiden näyttämisen */
 import Scorecards from './Scorecards'
+import Scorecard from './Scorecard'
 import CourseListing from './CourseListing'
+import Gameplay from './Gameplay'
 import { useState, useEffect } from 'react'
 import roundsService from '../services/rounds'
 import coursesService from '../services/courses'
 
 const Mainmenu = ({ loggedUser }) => {
-    // Sovelluksen tiedossa täytyy olla, onko kierros käynnissä vai ei
-    // Tämä voisi olla ennemmin (tai myös) selaimen muistissa tallessa
-    const [currentCourse, setCurrentCourse] = useState(null)
     // Kaikki radat listassa
     const [courses, setCourses] = useState([])
     // Kaikki pelatut kierrokset listassa
@@ -57,6 +56,29 @@ const Mainmenu = ({ loggedUser }) => {
         const newRound = await roundsService.create(scorecard)
         setRounds(rounds.concat(newRound))
         exit()
+        setComponentToRender([<Scorecard scorecard={newRound}></Scorecard>])
+        localStorage.removeItem('currentCourse')
+        localStorage.removeItem('currentScore')
+    }
+
+    const handleResumeGame = () => {
+        if (JSON.parse(localStorage.getItem('currentScore')))
+            setComponentToRender([
+                <Gameplay
+                    resumeGame={true}
+                    course={JSON.parse(localStorage.getItem('currentCourse'))}
+                    currentTime={new Date()}
+                    saveScore={saveScore}
+                ></Gameplay>,
+            ])
+    }
+
+    const handleNewGame = () => {
+        return JSON.parse(localStorage.getItem('currentScore'))
+            ? window.confirm('Start new round?')
+                ? setComponentToRender(components[2])
+                : null
+            : setComponentToRender(components[2])
     }
 
     /* Lista listoista, jos yksikään listan komponenttilistoista
@@ -75,7 +97,7 @@ const Mainmenu = ({ loggedUser }) => {
         [
             <div className='subMenuDiv'>
                 <CourseListing
-                    enterNewGame={null}
+                    enterNewGame={false}
                     addNewCourse={addNewCourse}
                     courses={courses}
                     enter={c => pushToComponents(1, c)}
@@ -86,8 +108,8 @@ const Mainmenu = ({ loggedUser }) => {
         [
             <div className='subMenuDiv'>
                 <CourseListing
+                    enterNewGame={true}
                     player={loggedUser}
-                    enterNewGame={course => setCurrentCourse(course)}
                     addNewCourse={addNewCourse}
                     courses={courses}
                     saveScore={saveScore}
@@ -99,7 +121,7 @@ const Mainmenu = ({ loggedUser }) => {
     ]
 
     return componentToRender ? (
-        <div>
+        <div style={{ height: '100%' }}>
             <button className='backButton' onClick={exit}>
                 back
             </button>
@@ -109,10 +131,8 @@ const Mainmenu = ({ loggedUser }) => {
         <div className='Mainmenu'>
             <h1>GolfCaddy</h1>
             <div className='mainMenuButtons'>
-                <button onClick={() => setComponentToRender(components[2])}>
-                    New game
-                </button>
-                <button onClick={() => null}>Resume game</button>
+                <button onClick={handleNewGame}>New game</button>
+                <button onClick={handleResumeGame}>Resume game</button>
                 <button onClick={() => setComponentToRender(components[1])}>
                     Courses
                 </button>
