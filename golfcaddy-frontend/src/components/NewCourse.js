@@ -1,11 +1,12 @@
 /* Radan lisäämislomake */
 import { useState } from 'react'
+/* addCourse aliohjleman avulla lisätään rata */
 const NewCourse = ({ addCourse }) => {
     // Radan pituus
     const [courseLength, setCourseLength] = useState(18)
     // radan nimi
     const [courseName, setCourseName] = useState('')
-    // Radan par:it
+    // Radan par:it, oletuksena 3
     const [holePars, setHolePars] = useState([
         3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
     ])

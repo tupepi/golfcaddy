@@ -5,18 +5,13 @@ import CourseListing from './CourseListing'
 import Gameplay from './Gameplay'
 import { useState, useEffect } from 'react'
 import roundsService from '../services/rounds'
-import coursesService from '../services/courses'
 
+// loggedUser on kirjautuneen käyttäjän id
 const Mainmenu = ({ loggedUser }) => {
-    // Kaikki radat listassa
-    const [courses, setCourses] = useState([])
     // Kaikki pelatut kierrokset listassa
     const [rounds, setRounds] = useState([])
     useEffect(() => {
         roundsService.getAll().then(rounds => setRounds(rounds))
-    }, [])
-    useEffect(() => {
-        coursesService.getAll().then(courses => setCourses(courses))
     }, [])
 
     /* componentToRender:in viimeinen alkio on näytettävä komponentti
@@ -27,6 +22,7 @@ const Mainmenu = ({ loggedUser }) => {
     const exit = () => {
         // Jos pituus on enemmän kuin 1 joku muu kuin Main Menu on edellinen
         if (componentToRender && componentToRender.length > 1) {
+            /* componentToRender.slice(0, -1) palauttaa componentToRender-taulukon ilman viimeistö alkiota */
             const newComponentToRender = componentToRender.slice(0, -1)
             setComponentToRender(newComponentToRender)
             return
@@ -39,46 +35,55 @@ const Mainmenu = ({ loggedUser }) => {
         setComponentToRender([...components[index], newComponent])
     }
 
-    // lisätään uusi rata
-    const addNewCourse = async course => {
-        const newCourse = await coursesService.create(course)
-        setCourses(courses.concat(newCourse))
-    }
-
     // Tallenetaan annettujen tietojen perusteella scorecard
     const saveScore = async (course, score, date) => {
         const scorecard = {
-            date: date,
+            date: JSON.parse(localStorage.getItem('startingTime')),
             player: loggedUser,
             course: course,
             score: score,
         }
         const newRound = await roundsService.create(scorecard)
         setRounds(rounds.concat(newRound))
+        /* scorecardin tallentamisen jälkeen poistutaan pelikierrosnäkymästä
+        eli palataan Main Menu näkymään */
         exit()
+        /* Mutta asetetaan päälle pelikierroksen tietojen näyttäminen */
         setComponentToRender([<Scorecard scorecard={newRound}></Scorecard>])
+        /* Poistetaan käynnissä olleen kierroksen tiedot selaimen muistista */
         localStorage.removeItem('currentCourse')
         localStorage.removeItem('currentScore')
+        localStorage.removeItem('startingTime')
     }
 
     const handleResumeGame = () => {
-        if (JSON.parse(localStorage.getItem('currentScore')))
-            setComponentToRender([
-                <Gameplay
-                    resumeGame={true}
-                    course={JSON.parse(localStorage.getItem('currentCourse'))}
-                    currentTime={new Date()}
-                    saveScore={saveScore}
-                ></Gameplay>,
-            ])
+        /* Jos selaimen muistissa ei ole kierrosta, kysytään aloitetaanko uusi */
+        if (JSON.parse(localStorage.getItem('currentScore'))) {
+            setComponentToRender(components[3])
+            return
+        }
+
+        if (window.confirm('no current round, start new?')) {
+            handleNewGame()
+        }
+    }
+
+    const enterNewGame = () => {
+        setComponentToRender(components[3])
     }
 
     const handleNewGame = () => {
-        return JSON.parse(localStorage.getItem('currentScore'))
-            ? window.confirm('Start new round?')
-                ? setComponentToRender(components[2])
-                : null
-            : setComponentToRender(components[2])
+        /* Jos selaimen muistissa on kierros, varmistetaan halutaanko uusi aloittaa */
+        if (JSON.parse(localStorage.getItem('currentScore'))) {
+            if (window.confirm('Start new round?')) {
+                localStorage.removeItem('currentScore')
+                localStorage.removeItem('currentCourse')
+                localStorage.removeItem('startingTime')
+                setComponentToRender(components[2])
+            }
+            return
+        }
+        setComponentToRender(components[2])
     }
 
     /* Lista listoista, jos yksikään listan komponenttilistoista
@@ -97,27 +102,20 @@ const Mainmenu = ({ loggedUser }) => {
         [
             <div className='subMenuDiv'>
                 <CourseListing
-                    enterNewGame={false}
-                    addNewCourse={addNewCourse}
-                    courses={courses}
+                    enterNewGame={null}
                     enter={c => pushToComponents(1, c)}
-                    exit={exit}
                 ></CourseListing>
             </div>,
         ],
         [
             <div className='subMenuDiv'>
                 <CourseListing
-                    enterNewGame={true}
-                    player={loggedUser}
-                    addNewCourse={addNewCourse}
-                    courses={courses}
-                    saveScore={saveScore}
+                    enterNewGame={enterNewGame}
                     enter={c => pushToComponents(2, c)}
-                    exit={exit}
                 ></CourseListing>
             </div>,
         ],
+        [<Gameplay saveScore={saveScore}></Gameplay>],
     ]
 
     return componentToRender ? (

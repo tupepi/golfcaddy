@@ -1,27 +1,34 @@
 /* Gameplay-komponentti vastaa pelin aikaisesta pisteiden kirjanpidosta */
 import { useState, useEffect } from 'react'
-
-const Gameplay = ({ currentTime, saveScore, resumeGame }) => {
+/* 
+saveScore-funktion avulla tallennetaan käynnissä oleva kierros
+*/
+const Gameplay = ({ saveScore }) => {
     const [currentHole, setCurrentHole] = useState(1)
     const [playerScore, setPlayerScore] = useState([])
-    const course = JSON.parse(localStorage.getItem('currentCourse'))
+    const [course, setCourse] = useState(null)
+
     useEffect(() => {
-        // Asetetaan ensimmäiselle väylälle tulokseksi oletuksena Par, muille NaN
+        const currentCourse = JSON.parse(localStorage.getItem('currentCourse'))
+        setCourse(currentCourse)
+        const currentScore = JSON.parse(localStorage.getItem('currentScore'))
+        if (currentScore) {
+            setPlayerScore(currentScore)
+            return
+        }
+        // Asetetaan ensimmäiselle väylälle tulokseksi oletuksena Par, muille null
         setPlayerScore(
-            course.pars.map((p, index) =>
-                index === 0 ? course.pars[0].par : NaN
+            currentCourse.pars.map((p, index) =>
+                index === 0 ? currentCourse.pars[0].par : null
             )
         )
-    }, [course.pars, course])
+    }, [])
 
     useEffect(() => {
         // Päivitetään selaimen muistiin pisteet, jotta voidaan jatkaa vaikka poistuttaisiin
-        if (!resumeGame) {
-            localStorage.setItem('currentScore', JSON.stringify(playerScore))
-            return
-        }
-        setPlayerScore(JSON.parse(localStorage.getItem('currentScore')))
-    }, [playerScore, resumeGame])
+        localStorage.setItem('currentScore', JSON.stringify(playerScore))
+    }, [playerScore])
+
     /* Käyttäjälle näytetään yksi väylä kerrallaan
     ja näillä vaihdetaan yksi eteen tai taaksepäin */
     const handleIncreaseCurrentHole = () => {
@@ -57,39 +64,39 @@ const Gameplay = ({ currentTime, saveScore, resumeGame }) => {
         // tämän hetkinen väylä, muutetaan sitä.
         const newScore = playerScore.map((strokes, i) => {
             if (i !== currentHole - 1) return strokes
-            var realStrokes = strokes
-            return realStrokes + change
+            return strokes + change
         })
         setPlayerScore(newScore)
     }
 
     // Kierroksen lopetus
     const handleFinishRound = () => {
-        saveScore(course, playerScore, currentTime)
+        saveScore(course, playerScore)
     }
 
     // Lasketaan pelattujen väylien lyönnit yhteen
     const countTotalScore = () => {
         return playerScore.reduce((a, b) => {
-            if (isNaN(b)) return a
+            if (!b) return a
             return a + b
         }, 0)
     }
     // Lasketaan suhteellinen tulos pelatuille väylille
     const countRelativeScore = () => {
         return playerScore.reduce((a, b, index) => {
-            if (isNaN(b)) return a
+            if (!b) return a
             return a + b - course.pars[index].par
         }, 0)
     }
     // Muuta nätimpään muotoon suhteellinen tulos
     const formalizeRelativeScore = score => {
+        /* Jos tulos on tasan par:issa näytetään E, muutoin etumerkin kanssa luku itse */
         if (score === 0) return 'E'
         if (score > 0) return '+' + score
         return score
     }
 
-    return (
+    return course ? (
         <div className='gamePlayDiv'>
             <button className='finishRound' onClick={handleFinishRound}>
                 finish round
@@ -112,10 +119,14 @@ const Gameplay = ({ currentTime, saveScore, resumeGame }) => {
                     </div>
                 </div>
                 <button onClick={handleDecreaseCurrentHole}>&lt;</button>
-                <button onClick={handleIncreaseCurrentHole}>&gt;</button>
+                {currentHole === course.pars.length ? (
+                    <button onClick={handleFinishRound}>finish round</button>
+                ) : (
+                    <button onClick={handleIncreaseCurrentHole}>&gt;</button>
+                )}
             </div>
         </div>
-    )
+    ) : null
 }
 
 export default Gameplay

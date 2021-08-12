@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
         .populate('player', {
             username: 1,
         })
-        .populate('course', { name: 1 })
+        .populate('course', { name: 1, pars: 1 })
     res.json(rounds)
 })
 
@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
             .populate('player', {
                 username: 1,
             })
-            .populate('course', { name: 1 })
+            .populate('course', { name: 1, pars: 1 })
             .execPopulate()
     )
 })

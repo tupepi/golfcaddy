@@ -1,5 +1,5 @@
 /* Näyttää yhden pelatun kierroksen tiedot */
-/* import { useState, useEffect } from 'react' */
+
 const Scorecard = ({ scorecard }) => {
     return scorecard ? (
         <div className='Scorecard'>
@@ -16,7 +16,7 @@ const Scorecard = ({ scorecard }) => {
                     {scorecard.score.map((s, i) => (
                         <tr key={i}>
                             <td>{i + 1}</td>
-                            <td>{0}</td>
+                            <td>{scorecard.course.pars[i].par}</td>
                             <td>{s}</td>
                         </tr>
                     ))}

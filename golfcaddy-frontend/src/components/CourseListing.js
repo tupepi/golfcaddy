@@ -2,9 +2,13 @@
 sekä kierroksien aloittamiseen */
 import { useEffect, useState } from 'react'
 import NewCourse from './NewCourse'
-import Gameplay from './Gameplay'
 import coursesService from '../services/courses'
-const CourseListing = ({ enterNewGame, addNewCourse, saveScore, enter }) => {
+/* enterNewGame avulla siirryttään uuteen peliin
+
+enter avulla voidaan määrätä näytettäväksi radan lisäämislomake tai pelikierrostilanne
+*/
+const CourseListing = ({ enterNewGame, enter }) => {
+    // Radat listattuna
     const [courses, setCourses] = useState([])
     useEffect(() => {
         coursesService.getAll().then(courses => setCourses(courses))
@@ -21,20 +25,17 @@ const CourseListing = ({ enterNewGame, addNewCourse, saveScore, enter }) => {
     // Klikatessa radan nimeä. Jos ollaan yleisessä ratalistauksessa, ei tehdä mitään.
     const handleCourseClick = c => {
         if (enterNewGame) {
+            localStorage.setItem('startingTime', JSON.stringify(new Date()))
             localStorage.setItem('currentCourse', JSON.stringify(c))
-            enter(
-                <Gameplay
-                    resumeGame={false}
-                    currentTime={new Date()}
-                    saveScore={saveScore}
-                ></Gameplay>
-            )
+            enterNewGame()
         }
     }
 
     // lisätään uusi rata, ja piilotetaan lisäyslomake
     const handleAddNewCourse = async course => {
-        await addNewCourse(course)
+        const newCourse = await coursesService.create(course)
+        /* lisäys myös käyttliittymän listaan */
+        setCourses(courses.concat(newCourse))
         // poistutaan toistaiseksi näin
         document.getElementsByClassName('backButton')[0].click()
     }

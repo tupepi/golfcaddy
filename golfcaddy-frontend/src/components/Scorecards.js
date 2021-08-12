@@ -1,7 +1,7 @@
 /* Luo listauksen pelaajan pelaamista kierroksista */
 import Scorecard from './Scorecard'
 const Scorecards = ({ enter, rounds }) => {
-    const handleClickRound = r => {
+    const handleClickRound = async r => {
         enter(<Scorecard scorecard={r}></Scorecard>)
     }
 
