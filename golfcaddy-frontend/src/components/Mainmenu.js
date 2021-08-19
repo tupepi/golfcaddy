@@ -11,8 +11,8 @@ const Mainmenu = ({ loggedUser }) => {
     // Kaikki pelatut kierrokset listassa
     const [rounds, setRounds] = useState([])
     useEffect(() => {
-        roundsService.getAll().then(rounds => setRounds(rounds))
-    }, [])
+        roundsService.get(loggedUser).then(rounds => setRounds(rounds))
+    }, [loggedUser])
 
     /* componentToRender:in viimeinen alkio on näytettävä komponentti
     Jos se on null, näytettään main menu */

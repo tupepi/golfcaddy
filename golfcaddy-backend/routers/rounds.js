@@ -15,6 +15,16 @@ router.get('/', async (req, res) => {
         .populate('course', { name: 1, pars: 1 })
     res.json(rounds)
 })
+// Palauttaa kaikki kierrokset, joissa käyttäjän id vastaa id:tä
+router.get('/user/:id', async (req, res) => {
+    // rounds sisältää kaikki tietokannassa olevat kierrokset
+    const rounds = await Round.find({ player: { _id: req.params.id } })
+        .populate('player', {
+            username: 1,
+        })
+        .populate('course', { name: 1, pars: 1 })
+    res.json(rounds)
+})
 
 // Palauttaa id:tä vastaavan kierroksen
 router.get('/:id', async (req, res) => {
