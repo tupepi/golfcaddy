@@ -3,7 +3,7 @@ content-type: application/json
 
 {
     "date": "Wed, 21 Oct 2015 18:27:50: GMT",
-    "player": "60e8102d7a684e06bcd1e899",
+    "player": "6128a90dd8422a205cc05ca8",
     "course":"60e810387a684e06bcd1e89b",
     "score": [
         { "strokes": 2 },

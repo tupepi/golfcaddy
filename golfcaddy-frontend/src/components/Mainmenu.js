@@ -6,12 +6,12 @@ import Gameplay from './Gameplay'
 import { useState, useEffect } from 'react'
 import roundsService from '../services/rounds'
 
-// loggedUser on kirjautuneen käyttäjän id
+// loggedUser on kirjautunut käyttäjä
 const Mainmenu = ({ loggedUser }) => {
     // Kaikki pelatut kierrokset listassa
     const [rounds, setRounds] = useState([])
     useEffect(() => {
-        roundsService.get(loggedUser).then(rounds => setRounds(rounds))
+        roundsService.get(loggedUser._id).then(rounds => setRounds(rounds))
     }, [loggedUser])
 
     /* componentToRender:in viimeinen alkio on näytettävä komponentti
@@ -39,7 +39,7 @@ const Mainmenu = ({ loggedUser }) => {
     const saveScore = async (course, score, date) => {
         const scorecard = {
             date: JSON.parse(localStorage.getItem('startingTime')),
-            player: loggedUser,
+            player: loggedUser._id,
             course: course,
             score: score,
         }

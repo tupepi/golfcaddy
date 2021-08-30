@@ -1,12 +1,17 @@
 /* Login.js hoitaa käyttöliittymän kirjautumisen*/
 import { useState } from 'react'
-
-const Login = () => {
+const Login = ({ login }) => {
     // Kirjautumislomakkeen tiedot
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const handleLogin = async event => {
+        event.preventDefault()
+        login({
+            username,
+            password,
+        })
+    }
 
-    const handleLogin = () => {}
     return (
         <div>
             <h2>Login</h2>

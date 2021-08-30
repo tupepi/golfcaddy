@@ -1,6 +1,7 @@
 // Tämä tiedosto vastaa käyttäjiin liittyvistä http-pyynnöistä
 const router = require('express').Router()
 const User = require('../models/user.js')
+const bcrypt = require('bcrypt') //
 
 // eri http-pyyntöjen käsittelijät
 // Palauttaa kaikki käyttäjät
@@ -19,8 +20,14 @@ router.get('/:id', async (req, res) => {
 
 // Lisää käyttäjän
 router.post('/', async (req, res) => {
+    const { password, rounds, username } = req.body
+    const passwordHash = await bcrypt.hash(password, 10)
+    console.log(password)
+    console.log(passwordHash)
+
     // luodaan pyynnön mukana tulleesta oliosta käyttäjä
-    const newUser = new User(req.body)
+    const newUser = new User({ username, rounds, passwordHashed: passwordHash })
+
     // tallennetaan, varmistetaan että tallennus on ohi
     const savedUser = await newUser.save()
     // vastataan pyytäjälle

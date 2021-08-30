@@ -9,6 +9,14 @@ const userSchema = new mongoose.Schema({
             ref: 'Round',
         },
     ],
+    passwordHashed: String,
 })
+
+userSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        delete returnedObject.passwordHashed
+    },
+})
+
 const User = mongoose.model('User', userSchema)
 module.exports = User

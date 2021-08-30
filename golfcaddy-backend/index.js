@@ -4,6 +4,7 @@
 const courseRouter = require('./routers/courses.js')
 const userRouter = require('./routers/users.js')
 const roundRouter = require('./routers/rounds.js')
+const loginRouter = require('./routers/login.js')
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
@@ -27,6 +28,7 @@ app.use(express.json()) // pyyntöjen mukana tuleva Json-data muunnetaan js-olio
 app.use('/api/courses', courseRouter)
 app.use('/api/users', userRouter)
 app.use('/api/rounds', roundRouter)
+app.use('/api/login', loginRouter)
 
 // Käynnistetään sovellus
 app.listen(port, () => {
