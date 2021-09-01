@@ -1,4 +1,4 @@
 POST http://localhost:3001/api/users/ HTTP/1.1
 content-type: application/json
 
-{"username": "tupepitk","rounds":[],"password":"salasana"}
+{"username": "elmaelti","rounds":[],"password":"123qweasd"}

@@ -17,7 +17,7 @@ const Scorecard = ({ scorecard }) => {
                         <tr key={i}>
                             <td>{i + 1}</td>
                             <td>{scorecard.course.pars[i].par}</td>
-                            <td>{s}</td>
+                            <td>{s ? s : 0}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -14,6 +14,8 @@ const Gameplay = ({ saveScore }) => {
         const currentScore = JSON.parse(localStorage.getItem('currentScore'))
         if (currentScore) {
             setPlayerScore(currentScore)
+            const savedHole = parseInt(localStorage.getItem('currentHole'), 10)
+            savedHole ? setCurrentHole(savedHole) : setCurrentHole(1)
             return
         }
         // Asetetaan ensimmäiselle väylälle tulokseksi oletuksena Par, muille null
@@ -42,6 +44,7 @@ const Gameplay = ({ saveScore }) => {
         if (currentHole === course.pars.length && change > 0) return
         const newHole = currentHole + change
         setCurrentHole(newHole)
+        localStorage.setItem('currentHole', newHole)
         // Uudelle väylälle siirtyessä muutetaan oletuspisteeksi väylän par
         if (change >= 1) {
             const newScore = playerScore.map((s, i) =>

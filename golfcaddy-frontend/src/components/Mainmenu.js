@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 import roundsService from '../services/rounds'
 
 // loggedUser on kirjautunut käyttäjä
-const Mainmenu = ({ loggedUser }) => {
+const Mainmenu = ({ loggedUser, logout }) => {
     // Kaikki pelatut kierrokset listassa
     const [rounds, setRounds] = useState([])
     useEffect(() => {
@@ -137,6 +137,7 @@ const Mainmenu = ({ loggedUser }) => {
                 <button onClick={() => setComponentToRender(components[0])}>
                     Scorecards
                 </button>
+                <button onClick={() => logout()}>Logout</button>
             </div>
         </div>
     )
