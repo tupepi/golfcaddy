@@ -3,7 +3,8 @@ sekä kierroksien aloittamiseen */
 import { useEffect, useState } from 'react'
 import NewCourse from './NewCourse'
 import coursesService from '../services/courses'
-/* enterNewGame avulla siirryttään uuteen peliin
+/* enterNewGame avulla siirryttään uuteen peliin, 
+jos enterNewGame on null, näytetään vain listausradoista ilman mahdollisuutta pelaamiseen
 
 enter avulla voidaan määrätä näytettäväksi radan lisäämislomake tai pelikierrostilanne
 */
@@ -14,6 +15,7 @@ const CourseListing = ({ enterNewGame, enter }) => {
         coursesService.getAll().then(courses => setCourses(courses))
     }, [])
 
+    // radan-lisäyksen klikkaamisen jälkeen näytetään lisäyslomake
     const handleClickAddNewCourse = () => {
         enter(
             <NewCourse

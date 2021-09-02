@@ -22,7 +22,6 @@ mongoose.connect(mongoURL, {
 const port = 3001 // portin numero
 
 app.use(cors())
-//
 app.use(express.json()) // pyyntöjen mukana tuleva Json-data muunnetaan js-olioksi
 // Otetaan käyttöön eri polkujen http-pyyntöjen käsittelijät
 app.use('/api/courses', courseRouter)

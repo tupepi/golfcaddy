@@ -1,5 +1,6 @@
 /* Gameplay-komponentti vastaa pelin aikaisesta pisteiden kirjanpidosta */
 import { useState, useEffect } from 'react'
+import Hole from './Hole.js'
 /* 
 saveScore-funktion avulla tallennetaan käynnissä oleva kierros
 */
@@ -8,17 +9,21 @@ const Gameplay = ({ saveScore }) => {
     const [playerScore, setPlayerScore] = useState([])
     const [course, setCourse] = useState(null)
 
+    // Vain ekalla Gameplayn renderöinnillä
     useEffect(() => {
+        // otetaan selaimen muistista valitturata
         const currentCourse = JSON.parse(localStorage.getItem('currentCourse'))
         setCourse(currentCourse)
         const currentScore = JSON.parse(localStorage.getItem('currentScore'))
         if (currentScore) {
+            // Jos kierrokselta on jo pisteet olemassa käytetään niitä
             setPlayerScore(currentScore)
+            // Jos ollaan jo jollain väylällä jatketaan siitä, muutoin väylältä 1
             const savedHole = parseInt(localStorage.getItem('currentHole'), 10)
             savedHole ? setCurrentHole(savedHole) : setCurrentHole(1)
             return
         }
-        // Asetetaan ensimmäiselle väylälle tulokseksi oletuksena Par, muille null
+        // Jos pisteitä ei ole asetetaan ensimmäiselle väylälle tulokseksi oletuksena Par, muille null
         setPlayerScore(
             currentCourse.pars.map((p, index) =>
                 index === 0 ? currentCourse.pars[0].par : null
@@ -40,15 +45,20 @@ const Gameplay = ({ saveScore }) => {
         changeCurrentHole(-1)
     }
     const changeCurrentHole = change => {
+        // jos ollaan ensimmäisellä väylällä, ei voida mennä 0:nteen
         if (currentHole === 1 && change < 0) return
+        // jos ollaan viimeisellä väylällä, ei voida mennä seuraavaan
         if (currentHole === course.pars.length && change > 0) return
         const newHole = currentHole + change
+        // tilan lisäksi tallennetaan tämänhetkinen väylä selaimeen, jotta poistuttaessa voidaan palata mihin jäätiin
         setCurrentHole(newHole)
         localStorage.setItem('currentHole', newHole)
-        // Uudelle väylälle siirtyessä muutetaan oletuspisteeksi väylän par
+        // Uudelle väylälle siirtyessä muutetaan oletuspisteeksi väylän par jos siinä on null, muille sama kuin ennen
         if (change >= 1) {
             const newScore = playerScore.map((s, i) =>
-                i === newHole - 1 ? course.pars[newHole - 1].par : s
+                i === newHole - 1 && s === null
+                    ? course.pars[newHole - 1].par
+                    : s
             )
             setPlayerScore(newScore)
         }
@@ -114,7 +124,7 @@ const Gameplay = ({ saveScore }) => {
             </div>
             <div className='holeInformationDiv'>
                 <div className='holeNumberAndPar'>
-                    <div>Hole: {currentHole}</div>
+                    <div className='holeDiv'>Hole: {currentHole}</div>
                     <div>Par: {course.pars[currentHole - 1].par}</div>
                     <div>
                         Score: {countTotalScore()} (

@@ -7,7 +7,7 @@ const Scorecards = ({ enter, rounds }) => {
 
     return (
         <div className='Scorecards'>
-            <h2>Scorecards</h2>
+            <h1>Scorecards</h1>
             <div className='scorecardListingDiv'>
                 {rounds.map(r => (
                     <div

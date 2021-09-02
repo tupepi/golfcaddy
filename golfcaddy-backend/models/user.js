@@ -9,9 +9,11 @@ const userSchema = new mongoose.Schema({
             ref: 'Round',
         },
     ],
+    //hashattu salasana
     passwordHashed: String,
 })
 
+// salasanaa poistetaan näkyvistä
 userSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         delete returnedObject.passwordHashed

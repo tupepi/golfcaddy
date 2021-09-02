@@ -6,9 +6,9 @@ import Gameplay from './Gameplay'
 import { useState, useEffect } from 'react'
 import roundsService from '../services/rounds'
 
-// loggedUser on kirjautunut käyttäjä
+// loggedUser on kirjautunut käyttäjä, logout avulla kirjataan ulos
 const Mainmenu = ({ loggedUser, logout }) => {
-    // Kaikki pelatut kierrokset listassa
+    // Kaikki kirjautuneen pelaajan pelatut kierrokset listassa
     const [rounds, setRounds] = useState([])
     useEffect(() => {
         roundsService.get(loggedUser._id).then(rounds => setRounds(rounds))
@@ -36,7 +36,7 @@ const Mainmenu = ({ loggedUser, logout }) => {
     }
 
     // Tallenetaan annettujen tietojen perusteella scorecard
-    const saveScore = async (course, score, date) => {
+    const saveScore = async (course, score) => {
         const scorecard = {
             date: JSON.parse(localStorage.getItem('startingTime')),
             player: loggedUser._id,
@@ -54,6 +54,7 @@ const Mainmenu = ({ loggedUser, logout }) => {
         localStorage.removeItem('currentCourse')
         localStorage.removeItem('currentScore')
         localStorage.removeItem('startingTime')
+        localStorage.removeItem('currentHole')
     }
 
     const handleResumeGame = () => {

@@ -22,12 +22,13 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     const { password, rounds, username } = req.body
 
+    // Jos löytyy jo käyttäjä annetulla nimellä, tehdään poikkues
     const usernameExists = await User.find({ username: username })
-
     if (usernameExists.length > 0) {
         return res.status(400).json({ error: 'username is already used' })
     }
 
+    // hashataan salasana
     const passwordHash = await bcrypt.hash(password, 10)
 
     // luodaan pyynnön mukana tulleesta oliosta käyttäjä

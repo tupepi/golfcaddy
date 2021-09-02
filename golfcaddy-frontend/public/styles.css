@@ -35,7 +35,7 @@ html,
     korkeudella eivät, 
     Jos tulee lisää nappeja niin height pienemmäksi*/
     width: 100%;
-    height: 20%;
+    height: 15%;
 }
 /* Rata-listaukseen liittyvät  ------------------------------------------ */
 .Courses,
@@ -112,6 +112,10 @@ html,
     height: 5%;
     top: 0;
     right: 0;
+}
+
+.holeDiv {
+    font-size: xx-large;
 }
 
 /* radan lisäys lomake -------------------------- */
@@ -209,9 +213,42 @@ html,
 }
 /* -------------------------- */
 
+/* scorecard listaus -------------------------- */
+.Scorecards {
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.scorecardListingDiv {
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.scorecardListingDiv div {
+    font-size: 140%;
+    margin-bottom: 5%;
+}
+
+/* -------------------------------------------------- */
 .backButton {
     position: fixed;
     height: 5%;
     top: 0;
     left: 0;
+}
+
+@media only screen and (min-width: 700px) {
+    body {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    #root {
+        max-width: 2000px;
+        min-width: 50%;
+    }
 }

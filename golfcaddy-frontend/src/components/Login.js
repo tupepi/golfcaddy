@@ -1,11 +1,12 @@
 /* Login.js hoitaa käyttöliittymän kirjautumisen*/
 import { useState } from 'react'
 import userServices from '../services/users.js'
+/* login:in avulla voidaan kirjautua */
 const Login = ({ login }) => {
     // Kirjautumislomakkeen tiedot
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-
+    // jos createNewAccountForm on true, näytetään käyttäjän luomislomakes
     const [createNewAccountForm, setCreateNewAccountForm] = useState(false)
 
     const handleLogin = async event => {
@@ -27,6 +28,7 @@ const Login = ({ login }) => {
         setCreateNewAccountForm(false)
     }
 
+    /* Luodaan käyttäjä (jos nimi ei ole käytössä). Nollataan lomake */
     const handleCreateAccount = async () => {
         try {
             await userServices.create({
