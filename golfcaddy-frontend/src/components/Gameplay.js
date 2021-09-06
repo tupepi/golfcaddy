@@ -1,6 +1,5 @@
 /* Gameplay-komponentti vastaa pelin aikaisesta pisteiden kirjanpidosta */
 import { useState, useEffect } from 'react'
-import Hole from './Hole.js'
 /* 
 saveScore-funktion avulla tallennetaan käynnissä oleva kierros
 */
@@ -8,6 +7,7 @@ const Gameplay = ({ saveScore }) => {
     const [currentHole, setCurrentHole] = useState(1)
     const [playerScore, setPlayerScore] = useState([])
     const [course, setCourse] = useState(null)
+    const [holeOpacity, setHoleOpacity] = useState(1)
 
     // Vain ekalla Gameplayn renderöinnillä
     useEffect(() => {
@@ -50,6 +50,7 @@ const Gameplay = ({ saveScore }) => {
         // jos ollaan viimeisellä väylällä, ei voida mennä seuraavaan
         if (currentHole === course.pars.length && change > 0) return
         const newHole = currentHole + change
+        setHoleOpacity(0)
         // tilan lisäksi tallennetaan tämänhetkinen väylä selaimeen, jotta poistuttaessa voidaan palata mihin jäätiin
         setCurrentHole(newHole)
         localStorage.setItem('currentHole', newHole)
@@ -62,6 +63,7 @@ const Gameplay = ({ saveScore }) => {
             )
             setPlayerScore(newScore)
         }
+        setTimeout(() => setHoleOpacity(1), 500)
     }
 
     /* Pelaajan väylän pisteiden muuttamiseen */
@@ -124,7 +126,17 @@ const Gameplay = ({ saveScore }) => {
             </div>
             <div className='holeInformationDiv'>
                 <div className='holeNumberAndPar'>
-                    <div className='holeDiv'>Hole: {currentHole}</div>
+                    <div className='holeDiv'>
+                        Hole:{' '}
+                        <span
+                            style={{
+                                transition: 'opacity 0.1s',
+                                opacity: holeOpacity,
+                            }}
+                        >
+                            {currentHole}
+                        </span>
+                    </div>
                     <div>Par: {course.pars[currentHole - 1].par}</div>
                     <div>
                         Score: {countTotalScore()} (

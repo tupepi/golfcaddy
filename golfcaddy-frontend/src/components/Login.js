@@ -29,7 +29,8 @@ const Login = ({ login }) => {
     }
 
     /* Luodaan käyttäjä (jos nimi ei ole käytössä). Nollataan lomake */
-    const handleCreateAccount = async () => {
+    const handleCreateAccount = async event => {
+        event.preventDefault()
         try {
             await userServices.create({
                 username: username,
@@ -50,30 +51,45 @@ const Login = ({ login }) => {
             ) : (
                 <h2>Login</h2>
             )}
-            <div>
-                username
-                <input
-                    id='username'
-                    value={username}
-                    onChange={({ target }) => setUsername(target.value)}
-                />
-            </div>
-            <div>
-                password
-                <input
-                    id='password'
-                    value={password}
-                    onChange={({ target }) => setPassword(target.value)}
-                />
-            </div>
+            <form
+                onSubmit={() =>
+                    createNewAccountForm
+                        ? { handleCreateAccount }
+                        : { handleLogin }
+                }
+            >
+                <div>
+                    <label htmlFor='username'>username</label>
+                    <input
+                        id='username'
+                        value={username}
+                        onChange={({ target }) => setUsername(target.value)}
+                    />
+                </div>
+                <div>
+                    <label htmlFor='password'>password</label>
+                    <input
+                        id='password'
+                        value={password}
+                        onChange={({ target }) => setPassword(target.value)}
+                    />
+                </div>
+                {createNewAccountForm ? (
+                    <div>
+                        <button onClick={handleCreateAccount}>create</button>
+                    </div>
+                ) : (
+                    <div>
+                        <button onClick={handleLogin}>login</button>
+                    </div>
+                )}
+            </form>
             {createNewAccountForm ? (
                 <div>
-                    <button onClick={handleCreateAccount}>create</button>
-                    <button onClick={handleCancel}>cancel</button>{' '}
+                    <button onClick={handleCancel}>cancel</button>
                 </div>
             ) : (
                 <div>
-                    <button onClick={handleLogin}>login</button>
                     <button onClick={handleShowCreateAccount}>
                         create new account
                     </button>
