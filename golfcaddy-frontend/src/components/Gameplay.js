@@ -1,5 +1,7 @@
 /* Gameplay-komponentti vastaa pelin aikaisesta pisteiden kirjanpidosta */
 import { useState, useEffect } from 'react'
+
+import styles from '../styles/Gameplay.module.css'
 /* 
 saveScore-funktion avulla tallennetaan käynnissä oleva kierros
 */
@@ -112,21 +114,21 @@ const Gameplay = ({ saveScore }) => {
     }
 
     return course ? (
-        <div className='gamePlayDiv'>
-            <button className='finishRound' onClick={handleFinishRound}>
+        <div className={styles.gamePlayDiv}>
+            <button className={styles.finishRound} onClick={handleFinishRound}>
                 finish round
             </button>
             <h2>{course.name}</h2>
-            <div className='holeScoreDiv'>
+            <div className={styles.holeScoreDiv}>
                 <button onClick={handleDecreaseScore}>-</button>
-                <div className='currentHoleScore'>
+                <div className={styles.currentHoleScore}>
                     {playerScore[currentHole - 1]}
                 </div>
                 <button onClick={handleIncreaseScore}>+</button>
             </div>
-            <div className='holeInformationDiv'>
-                <div className='holeNumberAndPar'>
-                    <div className='holeDiv'>
+            <div className={styles.holeInformationDiv}>
+                <div className={styles.holeNumberAndPar}>
+                    <div className={styles.holeDiv}>
                         Hole:{' '}
                         <span
                             style={{

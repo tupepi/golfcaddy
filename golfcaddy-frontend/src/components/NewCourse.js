@@ -1,5 +1,7 @@
 /* Radan lisäämislomake */
 import { useState } from 'react'
+import styles from '../styles/NewCourse.module.css'
+
 /* addCourse aliohjleman avulla lisätään rata */
 const NewCourse = ({ addCourse }) => {
     // Radan pituus
@@ -47,8 +49,8 @@ const NewCourse = ({ addCourse }) => {
     }
 
     return (
-        <div className='NewCourse'>
-            <div className='NewCourseInfo'>
+        <div className={styles.NewCourse}>
+            <div className={styles.NewCourseInfo}>
                 <form>
                     <label htmlFor='coursename'>Name</label>
                     <input
@@ -60,9 +62,9 @@ const NewCourse = ({ addCourse }) => {
                     ></input>
                 </form>
 
-                <div className='courseLengthInfo'>
+                <div className={styles.courseLengthInfo}>
                     <div>Number of holes: {courseLength}</div>
-                    <div className='changeLengthButtons'>
+                    <div className={styles.changeLengthButtons}>
                         <button
                             onClick={() => {
                                 handleLengthChange(18)
@@ -95,13 +97,13 @@ const NewCourse = ({ addCourse }) => {
                     </div>
                 </div>
 
-                <div className='holeList'>
+                <div className={styles.holeList}>
                     {holePars.map((h, i) => {
                         return (
-                            <div key={i} className='holeInfo'>
+                            <div key={i} className={styles.holeInfo}>
                                 <div>Hole {1 + i} Par:</div>
-                                <div className='holePar'>{h}</div>
-                                <div className='changeParButtons'>
+                                <div className={styles.holePar}>{h}</div>
+                                <div className={styles.changeParButtons}>
                                     <button
                                         onClick={() => {
                                             handleParChange(1 + i, -1)
@@ -121,7 +123,7 @@ const NewCourse = ({ addCourse }) => {
                         )
                     })}
                 </div>
-                <button className='saveNewCourse' onClick={saveCourse}>
+                <button className={styles.saveNewCourse} onClick={saveCourse}>
                     Save
                 </button>
             </div>

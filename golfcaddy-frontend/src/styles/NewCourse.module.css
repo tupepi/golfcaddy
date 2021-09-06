@@ -1,0 +1,112 @@
+.NewCourse {
+    height: 100%;
+}
+/* Kaikki paitsi back-näppäin */
+.NewCourseInfo {
+    padding-top: 5%;
+    height: 95%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+/* Radan pituuden divi */
+.courseLengthInfo {
+    text-align: center;
+    font-size: large;
+    width: 90%;
+    height: 5%;
+    min-height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* Radan pituuden säädöt */
+.changeLengthButtons {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    height: 100%;
+}
+/* Yksittäiset napit radan pituuden säädössä */
+.changeLengthButtons button {
+    height: 100%;
+    min-width: 20%;
+    max-width: 20%;
+}
+/* yksittäisen väylän tietojen divi */
+.holeInfo {
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+/* kolme eri diviä jotka täyttävät holeInfon: 
+1. "Hole 1 Par:"
+2. "3"
+3. "+-"
+*/
+.holeInfo > div {
+    width: 33%;
+}
+/* Väylälistauksen kokonaisuus */
+.holeList {
+    padding: 2%;
+    width: 95%;
+    max-height: 60%;
+    min-height: 60%;
+    overflow: scroll;
+    border: solid;
+    border-radius: 5px;
+    align-self: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+/* divi väylän parin näyttämiseen */
+.holePar {
+    font-size: 30px;
+    margin: 1%;
+}
+/* Divi napeille, joilla säädetään väylän paria */
+.changeParButtons {
+    max-width: 150px;
+    display: flex;
+    justify-content: space-between;
+}
+/* Napit joilla säädetään väylän paria */
+.changeParButtons button {
+    font-size: 100%;
+    min-width: 30px;
+}
+
+/* Lomakkeen tallennusnappi */
+.saveNewCourse {
+    width: 50%;
+    height: 5%;
+    align-self: center;
+}
+/* -------------------------- */
+
+/* scorecard listaus -------------------------- */
+.Scorecards {
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.scorecardListingDiv {
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.scorecardListingDiv div {
+    font-size: 140%;
+    margin-bottom: 5%;
+}

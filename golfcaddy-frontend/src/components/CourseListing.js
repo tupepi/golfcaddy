@@ -3,6 +3,7 @@ sekä kierroksien aloittamiseen */
 import { useEffect, useState } from 'react'
 import NewCourse from './NewCourse'
 import coursesService from '../services/courses'
+import styles from '../styles/CourseListing.module.css'
 /* enterNewGame avulla siirryttään uuteen peliin, 
 jos enterNewGame on null, näytetään vain listausradoista ilman mahdollisuutta pelaamiseen
 
@@ -43,7 +44,7 @@ const CourseListing = ({ enterNewGame, enter }) => {
     }
 
     return (
-        <div className='NewGame'>
+        <div className={styles.NewGame}>
             {
                 /* Otsikon valinta tilanteen mukaan */ enterNewGame ? (
                     <h1>New Game</h1>
@@ -51,7 +52,7 @@ const CourseListing = ({ enterNewGame, enter }) => {
                     <h1>Courses</h1>
                 )
             }
-            <div className='courseListingDiv'>
+            <div className={styles.courseListingDiv}>
                 {courses.map(c => (
                     <div key={c.name} onClick={() => handleCourseClick(c)}>
                         {c.name}

@@ -1,0 +1,58 @@
+.gamePlayDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+.holeScoreDiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 95%;
+    height: 25%;
+}
+.holeScoreDiv > * {
+    font-size: large;
+    width: 25%;
+    text-align: center;
+    height: 100%;
+}
+
+.currentHoleScore {
+    height: 50%;
+    font-size: 5rem;
+}
+
+.holeInformationDiv {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 15%;
+}
+.holeInformationDiv > * {
+    font-size: large;
+    height: 100%;
+    width: 33%;
+}
+.holeInformationDiv > button {
+    margin-right: 2%;
+}
+
+.holeNumberAndPar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.finishRound {
+    position: fixed;
+    height: 5%;
+    top: 0;
+    right: 0;
+}
+
+.holeDiv {
+    font-size: xx-large;
+}

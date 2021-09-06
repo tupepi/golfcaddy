@@ -5,6 +5,7 @@ import CourseListing from './CourseListing'
 import Gameplay from './Gameplay'
 import { useState, useEffect } from 'react'
 import roundsService from '../services/rounds'
+import styles from '../styles/Mainmenu.module.css'
 
 // loggedUser on kirjautunut käyttäjä, logout avulla kirjataan ulos
 const Mainmenu = ({ loggedUser, logout }) => {
@@ -93,7 +94,7 @@ const Mainmenu = ({ loggedUser, logout }) => {
     */
     const components = [
         [
-            <div className='subMenuDiv'>
+            <div className={styles.subMenuDiv}>
                 <Scorecards
                     rounds={rounds}
                     enter={c => pushToComponents(0, c)}
@@ -101,7 +102,7 @@ const Mainmenu = ({ loggedUser, logout }) => {
             </div>,
         ],
         [
-            <div className='subMenuDiv'>
+            <div className={styles.subMenuDiv}>
                 <CourseListing
                     enterNewGame={null}
                     enter={c => pushToComponents(1, c)}
@@ -109,7 +110,7 @@ const Mainmenu = ({ loggedUser, logout }) => {
             </div>,
         ],
         [
-            <div className='subMenuDiv'>
+            <div className={styles.subMenuDiv}>
                 <CourseListing
                     enterNewGame={enterNewGame}
                     enter={c => pushToComponents(2, c)}
@@ -127,9 +128,9 @@ const Mainmenu = ({ loggedUser, logout }) => {
             {componentToRender[componentToRender.length - 1]}
         </div>
     ) : (
-        <div className='Mainmenu'>
+        <div className={styles.Mainmenu}>
             <h1>GolfCaddy</h1>
-            <div className='mainMenuButtons'>
+            <div className={styles.mainMenuButtons}>
                 <button onClick={handleNewGame}>New game</button>
                 <button onClick={handleResumeGame}>Resume game</button>
                 <button onClick={() => setComponentToRender(components[1])}>

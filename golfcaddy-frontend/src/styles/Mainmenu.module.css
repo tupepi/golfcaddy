@@ -1,0 +1,27 @@
+.Mainmenu {
+    /* Otsikko ja napit ovat allekkain  */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+}
+
+.mainMenuButtons {
+    /* Napit ovat keskenään allekkain  */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 60%;
+    width: 50%;
+    max-width: 300px;
+}
+
+.mainMenuButtons button {
+    /* Napit täyttävät leveydellään oman Divinsä,
+    korkeudella eivät, 
+    Jos tulee lisää nappeja niin height pienemmäksi*/
+    width: 100%;
+    height: 15%;
+}

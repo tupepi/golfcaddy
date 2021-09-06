@@ -1,14 +1,16 @@
 /* Luo listauksen pelaajan pelaamista kierroksista */
 import Scorecard from './Scorecard'
+
+import styles from '../styles/Scorecards.module.css'
 const Scorecards = ({ enter, rounds }) => {
     const handleClickRound = async r => {
         enter(<Scorecard scorecard={r}></Scorecard>)
     }
 
     return (
-        <div className='Scorecards'>
+        <div className={styles.Scorecards}>
             <h1>Scorecards</h1>
-            <div className='scorecardListingDiv'>
+            <div className={styles.scorecardListingDiv}>
                 {rounds.map(r => (
                     <div
                         key={r.date + r.player._id}
