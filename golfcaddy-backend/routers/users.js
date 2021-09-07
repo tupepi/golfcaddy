@@ -22,17 +22,32 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     const { password, rounds, username } = req.body
 
+    // Jos käyttäjä nimi on alle 3 merkkiä pitkä
+    if (username.length < 3) {
+        return res.status(400).json({ error: 'Username is too short' })
+    }
+    if (password.length < 3) {
+        return res.status(400).json({ error: 'Password is too short' })
+    }
     // Jos löytyy jo käyttäjä annetulla nimellä, tehdään poikkues
     const usernameExists = await User.find({ username: username })
     if (usernameExists.length > 0) {
-        return res.status(400).json({ error: 'username is already used' })
+        return res.status(409).json({ error: 'Username is already used' })
     }
 
     // hashataan salasana
     const passwordHash = await bcrypt.hash(password, 10)
+    var userRounds = []
+    if (rounds) {
+        userRounds = rounds
+    }
 
     // luodaan pyynnön mukana tulleesta oliosta käyttäjä
-    const newUser = new User({ username, rounds, passwordHashed: passwordHash })
+    const newUser = new User({
+        username,
+        userRounds,
+        passwordHashed: passwordHash,
+    })
 
     // tallennetaan, varmistetaan että tallennus on ohi
     const savedUser = await newUser.save()
