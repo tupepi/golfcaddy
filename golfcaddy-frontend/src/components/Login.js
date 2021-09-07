@@ -14,8 +14,15 @@ const Login = ({ login }) => {
     const [notificationStyle, setNotificationStyle] = useState('')
     const [inputStyle, setInputStyle] = useState(styles.input)
 
-    const errorStyle2 = {
-        borderColor: '',
+    const error = e => {
+        setNotification(e.response.data.error)
+        setNotificationStyle(styles.error)
+        setInputStyle(styles.inputError)
+        setTimeout(() => {
+            setNotification('')
+            setNotificationStyle('')
+            setInputStyle(styles.input)
+        }, 2000)
     }
 
     const handleLogin = async event => {
@@ -26,14 +33,7 @@ const Login = ({ login }) => {
                 password,
             })
         } catch (e) {
-            setNotification(e.response.data.error)
-            setNotificationStyle(styles.error)
-            setInputStyle(styles.inputError)
-            setTimeout(() => {
-                setNotification('')
-                setNotificationStyle('')
-                setInputStyle(styles.input)
-            }, 2000)
+            error(e)
         }
     }
 
@@ -60,14 +60,7 @@ const Login = ({ login }) => {
             setPassword('')
             setCreateNewAccountForm(false)
         } catch (e) {
-            setNotification(e.response.data.error)
-            setNotificationStyle(styles.error)
-            setInputStyle(styles.inputError)
-            setTimeout(() => {
-                setNotification('')
-                setNotificationStyle('')
-                setInputStyle(styles.input)
-            }, 2000)
+            error(e)
         }
     }
 
@@ -89,7 +82,6 @@ const Login = ({ login }) => {
                 <div>
                     <label className={styles.label} htmlFor='username'></label>
                     <input
-                        style={errorStyle2}
                         className={inputStyle}
                         id='username'
                         value={username}

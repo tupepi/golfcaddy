@@ -3,7 +3,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    height: 100%;
+    margin-top: 10%;
+    height: 90%;
 }
 .holeScoreDiv {
     display: flex;

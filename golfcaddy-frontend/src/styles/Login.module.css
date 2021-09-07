@@ -9,10 +9,12 @@
 
     font-size: x-large;
 }
+
 .input {
     border: none;
     border-bottom: solid;
 }
+
 .inputError {
     border: none;
     border-bottom: solid;
@@ -23,9 +25,11 @@
     color: red;
     font-size: medium;
 }
+
 .input:focus {
     outline: none;
-} /* 
+}
+/* 
 .label {
 } */
 .form {

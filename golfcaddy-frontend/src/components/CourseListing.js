@@ -54,12 +54,19 @@ const CourseListing = ({ enterNewGame, enter }) => {
             }
             <div className={styles.courseListingDiv}>
                 {courses.map(c => (
-                    <div key={c.name} onClick={() => handleCourseClick(c)}>
-                        {c.name}
+                    <div
+                        className={styles.course}
+                        key={c.name}
+                        onClick={() => handleCourseClick(c)}
+                    >
+                        <span>{c.name}</span>
                     </div>
                 ))}
             </div>
-            <button onClick={() => handleClickAddNewCourse()}>
+            <button
+                className={styles.addNewCourseButton}
+                onClick={() => handleClickAddNewCourse()}
+            >
                 add new course
             </button>
         </div>

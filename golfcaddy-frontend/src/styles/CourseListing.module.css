@@ -8,6 +8,8 @@
 }
 
 .courseListingDiv {
+    text-align: center;
+    width: 100%;
     height: 50%;
     display: flex;
     flex-direction: column;
@@ -15,5 +17,22 @@
 }
 .courseListingDiv div {
     font-size: 140%;
-    margin-bottom: 5%;
+}
+.courseListingDiv div:nth-child(even) {
+    background: rgb(185, 185, 185);
+}
+.addNewCourseButton {
+    width: 50%;
+    height: 100%;
+    margin: 5%;
+}
+
+.course {
+    height: 50px;
+    width: 100%;
+    border: solid;
+    border-width: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

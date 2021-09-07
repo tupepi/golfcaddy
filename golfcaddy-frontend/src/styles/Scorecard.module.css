@@ -1,0 +1,25 @@
+.scorecard tr:nth-child(even) {
+    background-color: #cfcfcf;
+}
+
+.scorecard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 95%;
+}
+.scorecard div {
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+}
+
+.scorecard div table {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+.scorecardRow {
+    height: 40px;
+}

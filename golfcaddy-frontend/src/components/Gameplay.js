@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 
 import styles from '../styles/Gameplay.module.css'
+import functions from '../functions.js'
 /* 
 saveScore-funktion avulla tallennetaan käynnissä oleva kierros
 */
@@ -9,7 +10,6 @@ const Gameplay = ({ saveScore }) => {
     const [currentHole, setCurrentHole] = useState(1)
     const [playerScore, setPlayerScore] = useState([])
     const [course, setCourse] = useState(null)
-    const [holeOpacity, setHoleOpacity] = useState(1)
 
     // Vain ekalla Gameplayn renderöinnillä
     useEffect(() => {
@@ -52,7 +52,6 @@ const Gameplay = ({ saveScore }) => {
         // jos ollaan viimeisellä väylällä, ei voida mennä seuraavaan
         if (currentHole === course.pars.length && change > 0) return
         const newHole = currentHole + change
-        setHoleOpacity(0)
         // tilan lisäksi tallennetaan tämänhetkinen väylä selaimeen, jotta poistuttaessa voidaan palata mihin jäätiin
         setCurrentHole(newHole)
         localStorage.setItem('currentHole', newHole)
@@ -65,7 +64,6 @@ const Gameplay = ({ saveScore }) => {
             )
             setPlayerScore(newScore)
         }
-        setTimeout(() => setHoleOpacity(1), 500)
     }
 
     /* Pelaajan väylän pisteiden muuttamiseen */
@@ -91,28 +89,6 @@ const Gameplay = ({ saveScore }) => {
         saveScore(course, playerScore)
     }
 
-    // Lasketaan pelattujen väylien lyönnit yhteen
-    const countTotalScore = () => {
-        return playerScore.reduce((a, b) => {
-            if (!b) return a
-            return a + b
-        }, 0)
-    }
-    // Lasketaan suhteellinen tulos pelatuille väylille
-    const countRelativeScore = () => {
-        return playerScore.reduce((a, b, index) => {
-            if (!b) return a
-            return a + b - course.pars[index].par
-        }, 0)
-    }
-    // Muuta nätimpään muotoon suhteellinen tulos
-    const formalizeRelativeScore = score => {
-        /* Jos tulos on tasan par:issa näytetään E, muutoin etumerkin kanssa luku itse */
-        if (score === 0) return 'E'
-        if (score > 0) return '+' + score
-        return score
-    }
-
     return course ? (
         <div className={styles.gamePlayDiv}>
             <button className={styles.finishRound} onClick={handleFinishRound}>
@@ -129,20 +105,16 @@ const Gameplay = ({ saveScore }) => {
             <div className={styles.holeInformationDiv}>
                 <div className={styles.holeNumberAndPar}>
                     <div className={styles.holeDiv}>
-                        Hole:{' '}
-                        <span
-                            style={{
-                                transition: 'opacity 0.1s',
-                                opacity: holeOpacity,
-                            }}
-                        >
-                            {currentHole}
-                        </span>
+                        Hole: <span>{currentHole}</span>
                     </div>
                     <div>Par: {course.pars[currentHole - 1].par}</div>
                     <div>
-                        Score: {countTotalScore()} (
-                        {formalizeRelativeScore(countRelativeScore())})
+                        Score: {functions.countTotalScore(playerScore)} (
+                        {functions.countFormalRelativeScore(
+                            playerScore,
+                            course.pars
+                        )}
+                        )
                     </div>
                 </div>
                 <button onClick={handleDecreaseCurrentHole}>&lt;</button>
