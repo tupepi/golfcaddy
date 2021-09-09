@@ -28,23 +28,9 @@
 .holeInformationDiv {
     display: flex;
     align-items: center;
-    width: 100%;
+    justify-content: space-between;
+    width: 90%;
     height: 15%;
-}
-.holeInformationDiv > * {
-    font-size: large;
-    height: 100%;
-    width: 33%;
-}
-.holeInformationDiv > button {
-    margin-right: 2%;
-}
-
-.holeNumberAndPar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .finishRound {
@@ -56,4 +42,28 @@
 
 .holeDiv {
     font-size: xx-large;
+}
+
+.holeList {
+    overflow: scroll;
+    text-align: center;
+    max-width: 100%;
+    min-width: 100%;
+    height: 15%;
+    display: flex;
+}
+
+.holeList div {
+    display: flex;
+    align-items: center;
+
+    font-size: xx-large;
+    min-width: 25%;
+    border: solid;
+}
+.holeList div p {
+    width: 100%;
+}
+.selectedHole {
+    background-color: rgb(173, 173, 173);
 }

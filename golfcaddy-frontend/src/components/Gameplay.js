@@ -101,26 +101,39 @@ const Gameplay = ({ saveScore }) => {
                 <button onClick={handleIncreaseScore}>+</button>
             </div>
             <div className={styles.holeInformationDiv}>
-                <div className={styles.holeNumberAndPar}>
-                    <div className={styles.holeDiv}>
-                        Hole: <span>{currentHole}</span>
-                    </div>
-                    <div>Par: {course.pars[currentHole - 1].par}</div>
-                    <div>
-                        Score: {functions.countTotalScore(playerScore)} (
-                        {functions.countFormalRelativeScore(
-                            playerScore,
-                            course.pars
-                        )}
-                        )
-                    </div>
+                <div className={styles.holeDiv}>
+                    Hole: <span>{currentHole}</span>
                 </div>
-                <button onClick={handleDecreaseCurrentHole}>&lt;</button>
+                <div>Par: {course.pars[currentHole - 1].par}</div>
+                <div>
+                    Score: {functions.countTotalScore(playerScore)} (
+                    {functions.countFormalRelativeScore(
+                        playerScore,
+                        course.pars
+                    )}
+                    )
+                </div>
+                {/* <button onClick={handleDecreaseCurrentHole}>&lt;</button>
                 {currentHole === course.pars.length ? (
                     <button onClick={handleFinishRound}>finish round</button>
                 ) : (
                     <button onClick={handleIncreaseCurrentHole}>&gt;</button>
-                )}
+                )} */}
+            </div>
+            <div className={styles.holeList}>
+                {course.pars.map((p, i) => {
+                    return (
+                        <div
+                            key={i}
+                            className={
+                                currentHole === i + 1 ? styles.selectedHole : ''
+                            }
+                            onClick={() => setCurrentHole(i + 1)}
+                        >
+                            <p>{i + 1}</p>
+                        </div>
+                    )
+                })}
             </div>
         </div>
     ) : null
