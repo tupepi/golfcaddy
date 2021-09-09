@@ -1,9 +1,9 @@
 /* Radan lisäämislomake */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from '../styles/NewCourse.module.css'
 
 /* addCourse aliohjleman avulla lisätään rata */
-const NewCourse = ({ addCourse }) => {
+const NewCourse = ({ addCourse, name, pars, editCourse }) => {
     // Radan pituus
     const [courseLength, setCourseLength] = useState(18)
     // radan nimi
@@ -12,7 +12,15 @@ const NewCourse = ({ addCourse }) => {
     const [holePars, setHolePars] = useState([
         3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
     ])
-
+    useEffect(() => {
+        if (name) {
+            setCourseName(name)
+            if (pars) {
+                setHolePars(pars.map(p => p.par))
+            }
+            setCourseLength(pars.length)
+        }
+    }, [pars, name])
     // Muuttaessa radan pituutta, muuttuvat par:it
     const handleLengthChange = newLength => {
         if (newLength <= 0) return
@@ -40,12 +48,22 @@ const NewCourse = ({ addCourse }) => {
 
     // Tallennettaan annetut tiedot
     const saveCourse = () => {
-        addCourse({
-            pars: holePars.map(p => {
-                return { par: p }
-            }),
-            name: courseName,
-        })
+        // Jos on on annettu nimi, ollaan muokkaamassa olemassa olevaa
+        if (!name) {
+            addCourse({
+                pars: holePars.map(p => {
+                    return { par: p }
+                }),
+                name: courseName,
+            })
+        } else {
+            editCourse({
+                pars: holePars.map(p => {
+                    return { par: p }
+                }),
+                name: courseName,
+            })
+        }
     }
 
     return (

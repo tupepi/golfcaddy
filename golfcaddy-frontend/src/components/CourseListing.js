@@ -12,6 +12,7 @@ enter avulla voidaan määrätä näytettäväksi radan lisäämislomake tai pel
 const CourseListing = ({ enterNewGame, enter }) => {
     // Radat listattuna
     const [courses, setCourses] = useState([])
+    const [selectedCourse, setSelectedCourse] = useState(null)
     useEffect(() => {
         coursesService.getAll().then(courses => setCourses(courses))
     }, [])
@@ -25,15 +26,31 @@ const CourseListing = ({ enterNewGame, enter }) => {
         )
     }
 
+    // radan-muokkauksen klikkaamisen jälkeen näytetään lisäyslomake
+    const handleClickEditCourse = () => {
+        enter(
+            <NewCourse
+                editCourse={course => handleEditCourse(course)}
+                name={selectedCourse.name}
+                pars={selectedCourse.pars}
+            ></NewCourse>
+        )
+    }
     // Klikatessa radan nimeä. Jos ollaan yleisessä ratalistauksessa, ei tehdä mitään.
     const handleCourseClick = c => {
+        setSelectedCourse(c)
+    }
+
+    const startGame = () => {
         if (enterNewGame) {
             localStorage.setItem('startingTime', JSON.stringify(new Date()))
-            localStorage.setItem('currentCourse', JSON.stringify(c))
+            localStorage.setItem(
+                'currentCourse',
+                JSON.stringify(selectedCourse)
+            )
             enterNewGame()
         }
     }
-
     // lisätään uusi rata, ja piilotetaan lisäyslomake
     const handleAddNewCourse = async course => {
         const newCourse = await coursesService.create(course)
@@ -42,7 +59,32 @@ const CourseListing = ({ enterNewGame, enter }) => {
         // poistutaan toistaiseksi näin
         document.getElementsByClassName('backButton')[0].click()
     }
-
+    // muokataan rataa, ja piilotetaan muokkauss
+    const handleEditCourse = async course => {
+        const editedCourse = Object.assign({ _id: selectedCourse._id }, course)
+        const newCourse = await coursesService.update(editedCourse)
+        /* poistetaan käyttliittymästä vanha ja lisätään uusi */
+        setCourses(courses.map(c => (c._id === newCourse._id ? newCourse : c)))
+        // poistutaan toistaiseksi näin
+        document.getElementsByClassName('backButton')[0].click()
+    }
+    const courseButtons = () => {
+        return enterNewGame ? (
+            <button
+                className={styles.startNewGameButton}
+                onClick={() => startGame()}
+            >
+                Start Game
+            </button>
+        ) : (
+            <button
+                className={styles.startNewGameButton}
+                onClick={() => handleClickEditCourse()}
+            >
+                Edit Course
+            </button>
+        )
+    }
     return (
         <div className={styles.NewGame}>
             {
@@ -55,19 +97,31 @@ const CourseListing = ({ enterNewGame, enter }) => {
             <div className={styles.courseListingDiv}>
                 {courses.map(c => (
                     <div
+                        style={
+                            selectedCourse
+                                ? c.name === selectedCourse.name
+                                    ? { backgroundColor: '#B6B6B6' }
+                                    : null
+                                : null
+                        }
                         className={styles.course}
                         key={c.name}
-                        onClick={() => handleCourseClick(c)}
+                        onClick={() => {
+                            handleCourseClick(c)
+                        }}
                     >
                         <span>{c.name}</span>
                     </div>
                 ))}
             </div>
+
+            {selectedCourse ? courseButtons() : null}
+
             <button
                 className={styles.addNewCourseButton}
                 onClick={() => handleClickAddNewCourse()}
             >
-                add new course
+                Add New Course
             </button>
         </div>
     )

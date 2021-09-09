@@ -36,13 +36,13 @@ const Gameplay = ({ saveScore }) => {
 
     /* Käyttäjälle näytetään yksi väylä kerrallaan
     ja näillä vaihdetaan yksi eteen tai taaksepäin */
-    const handleIncreaseCurrentHole = () => {
+    /*    const handleIncreaseCurrentHole = () => {
         changeCurrentHole(1)
     }
     const handleDecreaseCurrentHole = () => {
         changeCurrentHole(-1)
-    }
-    const changeCurrentHole = change => {
+    } */
+    /*     const changeCurrentHole = change => {
         // jos ollaan ensimmäisellä väylällä, ei voida mennä 0:nteen
         if (currentHole === 1 && change < 0) return
         // jos ollaan viimeisellä väylällä, ei voida mennä seuraavaan
@@ -60,8 +60,8 @@ const Gameplay = ({ saveScore }) => {
             )
             setPlayerScore(newScore)
         } */
-    }
-
+    /* }
+     */
     /* Pelaajan väylän pisteiden muuttamiseen */
     const handleIncreaseScore = () => {
         changeScore(1)

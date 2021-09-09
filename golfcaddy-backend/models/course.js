@@ -6,5 +6,7 @@ const courseSchema = new mongoose.Schema({
     // radan par-lukemat
     pars: [{ par: Number }],
 })
+
+mongoose.set('useFindAndModify', false)
 const Course = mongoose.model('Course', courseSchema)
 module.exports = Course
