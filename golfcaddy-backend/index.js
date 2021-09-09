@@ -19,7 +19,7 @@ mongoose.connect(mongoURL, {
     useUnifiedTopology: true,
 })
 
-const port = 3001 // portin numero
+const port = process.env.PORT || 3001 // portin numero
 
 app.use(cors())
 app.use(express.json()) // pyyntöjen mukana tuleva Json-data muunnetaan js-olioksi

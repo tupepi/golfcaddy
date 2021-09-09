@@ -1,40 +1,44 @@
 // Tämä tiedosto vastaa pelattuihin kierroksiin liittyvistä http-pyynnöistä
 const router = require('express').Router()
 const User = require('../models/user.js')
+const jwt = require('jsonwebtoken')
 //const Course = require('../models/course.js')
 const Round = require('../models/round.js')
 
-// eri http-pyyntöjen käsittelijät
-// Palauttaa kaikki kierrokset
-router.get('/', async (req, res) => {
-    // rounds sisältää kaikki tietokannassa olevat kierrokset
-    const rounds = await Round.find({})
-        .populate('player', {
-            username: 1,
-        })
-        .populate('course', { name: 1, pars: 1 })
-    res.json(rounds)
-})
+const checkAuthorization = (req, res) => {
+    const authorization = req.get('authorization')
+    var token = null
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+        var token = authorization.substring(7)
+    }
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    if (!token || !decodedToken._id) {
+        return res.status(401).json({ error: 'token missing or invalid' })
+    }
+    return decodedToken._id
+}
+
 // Palauttaa kaikki kierrokset, joissa käyttäjän id vastaa id:tä
 router.get('/user/:id', async (req, res) => {
+    // käyttäjän kierrokset saavat olla vain itsensä saatavilla joten tarkastetaan tokenilla oikeus
+    const userId = checkAuthorization(req, res)
+
     // rounds sisältää kaikki tietokannassa olevat kierrokset
-    const rounds = await Round.find({ player: { _id: req.params.id } })
+    const rounds = await Round.find({ player: { _id: userId } })
         .populate('player', {
             username: 1,
         })
         .populate('course', { name: 1, pars: 1 })
     res.json(rounds)
-})
-
-// Palauttaa id:tä vastaavan kierroksen
-router.get('/:id', async (req, res) => {
-    // round sisältää id:tä vastaavan kierroksen
-    const round = await Round.findById(req.params.id.toString())
-    res.json(round)
 })
 
 // Lisää annetun kierroksen tietokantaan sekä pelaajan tietoihin
 router.post('/', async (req, res) => {
+    // käyttäjän kierrokset saavat olla vain itsensä saatavilla joten tarkastetaan tokenilla oikeus
+    const userId = checkAuthorization(req, res)
+    if (userId !== req.body.player) {
+        return res.status(401)
+    }
     const newRound = new Round(req.body)
     // tallennetaan, varmistetaan että tallennus on ohi
     const savedRound = await newRound.save()
@@ -53,18 +57,14 @@ router.post('/', async (req, res) => {
     )
 })
 
-// Muokkaa id:tä vastaavaa kierrosta
-router.put('/:id', async (req, res) => {
-    const round = req.body
-    const updatedRound = await Round.findByIdAndUpdate(req.params.id, round, {
-        new: true,
-    })
-    res.json(updatedRound.toJSON())
-})
-
 // Poistaa id:tä vastaavan kierroksen
 router.delete('/:id', async (req, res) => {
     const round = await Round.findById(req.params.id)
+    // käyttäjän kierrokset saavat olla vain itsensä saatavilla joten tarkastetaan tokenilla oikeus
+    const userId = checkAuthorization(req, res)
+    if (userId !== round.player) {
+        return res.status(401)
+    }
     const player = await User.findById(round.player)
     // filteröidään pelaajan kierroksista pois poistettava
     player.rounds = player.rounds.filter(r => {
@@ -75,4 +75,31 @@ router.delete('/:id', async (req, res) => {
     res.status(204).end()
 })
 
+// Muokkaa id:tä vastaavaa kierrosta, ei välttämättä tarpeellinen
+/* router.put('/:id', async (req, res) => {
+    const round = req.body
+    const updatedRound = await Round.findByIdAndUpdate(req.params.id, round, {
+        new: true,
+    })
+    res.json(updatedRound.toJSON())
+}) */
+
+// eri http-pyyntöjen käsittelijät
+// Palauttaa kaikki kierrokset, ei välttämättä tarpeellinen
+/* router.get('/', async (req, res) => {
+    // rounds sisältää kaikki tietokannassa olevat kierrokset
+    const rounds = await Round.find({})
+        .populate('player', {
+            username: 1,
+        })
+        .populate('course', { name: 1, pars: 1 })
+        res.json(rounds)
+}) */
+
+// Palauttaa id:tä vastaavan kierroksen, ei välttämättä tarpeellinen
+/* router.get('/:id', async (req, res) => {
+    // round sisältää id:tä vastaavan kierroksen
+    const round = await Round.findById(req.params.id.toString())
+        res.json(round)
+}) */
 module.exports = router
