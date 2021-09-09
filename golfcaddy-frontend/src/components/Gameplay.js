@@ -25,12 +25,8 @@ const Gameplay = ({ saveScore }) => {
             savedHole ? setCurrentHole(savedHole) : setCurrentHole(1)
             return
         }
-        // Jos pisteitä ei ole asetetaan ensimmäiselle väylälle tulokseksi oletuksena Par, muille null
-        setPlayerScore(
-            currentCourse.pars.map((p, index) =>
-                index === 0 ? currentCourse.pars[0].par : null
-            )
-        )
+        // Jos pisteitä ei ole asetetaan kaikille null
+        setPlayerScore(currentCourse.pars.map(() => null))
     }, [])
 
     useEffect(() => {
@@ -55,7 +51,7 @@ const Gameplay = ({ saveScore }) => {
         // tilan lisäksi tallennetaan tämänhetkinen väylä selaimeen, jotta poistuttaessa voidaan palata mihin jäätiin
         setCurrentHole(newHole)
         localStorage.setItem('currentHole', newHole)
-        // Uudelle väylälle siirtyessä muutetaan oletuspisteeksi väylän par jos siinä on null, muille sama kuin ennen
+        /* // Uudelle väylälle siirtyessä muutetaan oletuspisteeksi väylän par jos siinä on null, muille sama kuin ennen
         if (change >= 1) {
             const newScore = playerScore.map((s, i) =>
                 i === newHole - 1 && s === null
@@ -63,7 +59,7 @@ const Gameplay = ({ saveScore }) => {
                     : s
             )
             setPlayerScore(newScore)
-        }
+        } */
     }
 
     /* Pelaajan väylän pisteiden muuttamiseen */
@@ -79,7 +75,7 @@ const Gameplay = ({ saveScore }) => {
         // tämän hetkinen väylä, muutetaan sitä.
         const newScore = playerScore.map((strokes, i) => {
             if (i !== currentHole - 1) return strokes
-            return strokes + change
+            return strokes ? strokes + change : course.pars[currentHole - 1].par
         })
         setPlayerScore(newScore)
     }
@@ -98,7 +94,9 @@ const Gameplay = ({ saveScore }) => {
             <div className={styles.holeScoreDiv}>
                 <button onClick={handleDecreaseScore}>-</button>
                 <div className={styles.currentHoleScore}>
-                    {playerScore[currentHole - 1]}
+                    {playerScore[currentHole - 1]
+                        ? playerScore[currentHole - 1]
+                        : '-'}
                 </div>
                 <button onClick={handleIncreaseScore}>+</button>
             </div>
