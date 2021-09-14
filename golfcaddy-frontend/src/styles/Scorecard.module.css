@@ -8,6 +8,7 @@
     align-items: center;
     justify-content: space-between;
     height: 95%;
+    margin-top: 5%;
 }
 .scorecard div {
     width: 100%;
@@ -22,4 +23,10 @@
 }
 .scorecardRow {
     height: 40px;
+}
+.deleteButton {
+    position: fixed;
+    height: 5%;
+    top: 0;
+    right: 0;
 }

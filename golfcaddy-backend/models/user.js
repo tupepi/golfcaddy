@@ -1,3 +1,4 @@
+// luodaan model, jonka avulla voidaan luoda käyttäjä-instansseja
 const mongoose = require('mongoose') // tietokanta yhteyden kontrollointiin
 // Luodaan skeema käyttäjälle, toistaiseksi vain nimi ja pelatut kierrokset
 const userSchema = new mongoose.Schema({

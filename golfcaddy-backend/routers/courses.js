@@ -1,6 +1,6 @@
 // Tämä tiedosto vastaa ratoihin liittyvistä http-pyynnöistä
-const router = require('express').Router()
-const Course = require('../models/course.js')
+const router = require('express').Router() // http-pyyntöjen käsittelyyn
+const Course = require('../models/course.js') // rata-instanssien käsittelyyn
 
 // eri http-pyyntöjen käsittelijät
 // palauttaa kaikki radat
@@ -37,6 +37,7 @@ router.put('/:id', async (req, res) => {
             new: true,
         }
     )
+    // palautetaan päivitetty rata
     res.json(updatedCourse.toJSON())
 })
 

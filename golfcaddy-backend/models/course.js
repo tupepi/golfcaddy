@@ -1,3 +1,4 @@
+// course.js luo modelin, jolla voidaan luoda rata-instansseja
 const mongoose = require('mongoose') // tietokanta yhteyden kontrollointiin
 // Luodaan skeema radalle, toistaiseksi vain nimi ja väylien par:it
 const courseSchema = new mongoose.Schema({

@@ -5,6 +5,7 @@ import Login from './components/Login'
 
 import loginService from './services/login'
 const App = () => {
+    // tallennetaan käyttöliittymän tietoon käyttäjä
     useEffect(() => {
         setLoggedUser(JSON.parse(localStorage.getItem('loggedUser')))
     }, [])
@@ -15,7 +16,7 @@ const App = () => {
         setLoggedUser(user)
         localStorage.setItem('loggedUser', JSON.stringify(user))
     }
-
+    // Uloskirjautuessa nollataan käyttäjätiedot, sekä selaimen muisti
     const logout = async () => {
         setLoggedUser(null)
         localStorage.clear()

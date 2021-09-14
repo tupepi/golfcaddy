@@ -1,11 +1,13 @@
-const router = require('express').Router()
-const jwt = require('jsonwebtoken')
-const User = require('../models/user')
-const bcrypt = require('bcrypt') //
+// Kirjautumispyynnöistä vastaava tiedosto
+const router = require('express').Router() // http-pyyntöjen käsittelyyn
+const jwt = require('jsonwebtoken') // tokenin luomiseen
+const User = require('../models/user') // käyttäjä-instanssien hallintaan
+const bcrypt = require('bcrypt') // salasanan ja hashatun vertaamiseen
 router.post('/', async (request, response) => {
     const body = request.body
     // body.username ja body.password ovat käyttäjän antamat kirjautumistiedot
     const user = await User.findOne({ username: body.username })
+    // Muutetaan correctPassword -> true, jos löytyy käyttäjä JA annettu salasana on oikein
     var correctPassword = false
     // Jos tietokannasta löytyi käyttäjä annetulla nimellä
     if (user) {
@@ -23,7 +25,7 @@ router.post('/', async (request, response) => {
         })
     }
 
-    /* käyttäjänimen, id:n ja "SECRET"-muutujan avulla luodaan token */
+    /* käyttäjänimen, id:n ja "SECRET"-muuttujan avulla luodaan token */
     const userForToken = {
         username: user.username,
         _id: user._id,

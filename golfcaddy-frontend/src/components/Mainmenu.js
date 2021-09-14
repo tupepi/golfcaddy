@@ -11,6 +11,7 @@ import styles from '../styles/Mainmenu.module.css'
 const Mainmenu = ({ loggedUser, logout }) => {
     // Kaikki kirjautuneen pelaajan pelatut kierrokset listassa
     const [rounds, setRounds] = useState([])
+    // Kirjaantuneen käyttäjän vaihtuessa päivitetään kierrokset-lista
     useEffect(() => {
         roundsService.get(loggedUser._id).then(rounds => setRounds(rounds))
     }, [loggedUser])
@@ -49,8 +50,14 @@ const Mainmenu = ({ loggedUser, logout }) => {
         /* scorecardin tallentamisen jälkeen poistutaan pelikierrosnäkymästä
         eli palataan Main Menu näkymään */
         exit()
-        /* Mutta asetetaan päälle pelikierroksen tietojen näyttäminen */
-        setComponentToRender([<Scorecard scorecard={newRound}></Scorecard>])
+        /* Mutta asetetaan päälle pelikierroksen tietojen näyttäminen,
+        jotta "palatessa" mennään MainMenuun*/
+        setComponentToRender([
+            <Scorecard
+                scorecard={newRound}
+                deleteScorecard={() => deleteRound(newRound._id)}
+            ></Scorecard>,
+        ])
         /* Poistetaan käynnissä olleen kierroksen tiedot selaimen muistista */
         localStorage.removeItem('currentCourse')
         localStorage.removeItem('currentScore')
@@ -74,13 +81,38 @@ const Mainmenu = ({ loggedUser, logout }) => {
         setComponentToRender(components[3])
     }
 
-    const handleNewGame = () => {
+    const deleteRound = async id => {
+        await roundsService.remove(id)
+        const newRounds = rounds.filter(r => r._id !== id)
+        setRounds(newRounds)
+        exit()
+        setComponentToRender([
+            <div className={styles.subMenuDiv}>
+                <Scorecards
+                    rounds={newRounds}
+                    enter={c => pushToComponents(0, c)}
+                    deleteRound={deleteRound}
+                ></Scorecards>
+            </div>,
+        ])
+    }
+
+    const handleNewGame = async () => {
         /* Jos selaimen muistissa on kierros, varmistetaan halutaanko uusi aloittaa */
         if (JSON.parse(localStorage.getItem('currentScore'))) {
-            if (window.confirm('Start new round?')) {
+            if (window.confirm('Start new round? Current one will be saved.')) {
+                const scorecard = {
+                    date: JSON.parse(localStorage.getItem('startingTime')),
+                    player: loggedUser._id,
+                    course: JSON.parse(localStorage.getItem('currentCourse')),
+                    score: JSON.parse(localStorage.getItem('currentScore')),
+                }
+                const newRound = await roundsService.create(scorecard)
+                setRounds(rounds.concat(newRound))
                 localStorage.removeItem('currentScore')
                 localStorage.removeItem('currentCourse')
                 localStorage.removeItem('startingTime')
+                localStorage.removeItem('currentHole')
                 setComponentToRender(components[2])
             }
             return
@@ -98,6 +130,7 @@ const Mainmenu = ({ loggedUser, logout }) => {
                 <Scorecards
                     rounds={rounds}
                     enter={c => pushToComponents(0, c)}
+                    deleteRound={deleteRound}
                 ></Scorecards>
             </div>,
         ],

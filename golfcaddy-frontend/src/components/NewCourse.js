@@ -13,6 +13,7 @@ const NewCourse = ({ addCourse, name, pars, editCourse }) => {
         3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
     ])
     useEffect(() => {
+        // jos on annettu name, ollaan muokkaamassa rataa eikä luomassa uutta
         if (name) {
             setCourseName(name)
             if (pars) {

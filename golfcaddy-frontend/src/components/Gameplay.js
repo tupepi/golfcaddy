@@ -2,20 +2,21 @@
 import { useState, useEffect } from 'react'
 
 import styles from '../styles/Gameplay.module.css'
-import functions from '../functions.js'
+import functions from '../functions.js' // Muutama pisteiden laskuun liittyvä funktio on eristetty muualle
 /* 
 saveScore-funktion avulla tallennetaan käynnissä oleva kierros
 */
 const Gameplay = ({ saveScore }) => {
-    const [currentHole, setCurrentHole] = useState(1)
-    const [playerScore, setPlayerScore] = useState([])
-    const [course, setCourse] = useState(null)
+    const [currentHole, setCurrentHole] = useState(1) // Pidetään tallessa millä väylällä ollaan
+    const [playerScore, setPlayerScore] = useState([]) // Pelaajan pisteet
+    const [course, setCourse] = useState(null) // rata, jolla ollaan
 
     // Vain ekalla Gameplayn renderöinnillä
     useEffect(() => {
         // otetaan selaimen muistista valitturata
         const currentCourse = JSON.parse(localStorage.getItem('currentCourse'))
         setCourse(currentCourse)
+        // Selaimen muistista pisteet, jos esim ollaan poistuttu pelistä, ja palataan
         const currentScore = JSON.parse(localStorage.getItem('currentScore'))
         if (currentScore) {
             // Jos kierrokselta on jo pisteet olemassa käytetään niitä
@@ -29,39 +30,12 @@ const Gameplay = ({ saveScore }) => {
         setPlayerScore(currentCourse.pars.map(() => null))
     }, [])
 
+    // Aina pelajaan pisteiden päivittyessä
     useEffect(() => {
         // Päivitetään selaimen muistiin pisteet, jotta voidaan jatkaa vaikka poistuttaisiin
         localStorage.setItem('currentScore', JSON.stringify(playerScore))
     }, [playerScore])
 
-    /* Käyttäjälle näytetään yksi väylä kerrallaan
-    ja näillä vaihdetaan yksi eteen tai taaksepäin */
-    /*    const handleIncreaseCurrentHole = () => {
-        changeCurrentHole(1)
-    }
-    const handleDecreaseCurrentHole = () => {
-        changeCurrentHole(-1)
-    } */
-    /*     const changeCurrentHole = change => {
-        // jos ollaan ensimmäisellä väylällä, ei voida mennä 0:nteen
-        if (currentHole === 1 && change < 0) return
-        // jos ollaan viimeisellä väylällä, ei voida mennä seuraavaan
-        if (currentHole === course.pars.length && change > 0) return
-        const newHole = currentHole + change
-        // tilan lisäksi tallennetaan tämänhetkinen väylä selaimeen, jotta poistuttaessa voidaan palata mihin jäätiin
-        setCurrentHole(newHole)
-        localStorage.setItem('currentHole', newHole)
-        /* // Uudelle väylälle siirtyessä muutetaan oletuspisteeksi väylän par jos siinä on null, muille sama kuin ennen
-        if (change >= 1) {
-            const newScore = playerScore.map((s, i) =>
-                i === newHole - 1 && s === null
-                    ? course.pars[newHole - 1].par
-                    : s
-            )
-            setPlayerScore(newScore)
-        } */
-    /* }
-     */
     /* Pelaajan väylän pisteiden muuttamiseen */
     const handleIncreaseScore = () => {
         changeScore(1)
@@ -70,11 +44,13 @@ const Gameplay = ({ saveScore }) => {
         changeScore(-1)
     }
     const changeScore = change => {
+        // Jos uusi tulos on 0, poistutaan
         if (playerScore[currentHole - 1] === 1 && change < 0) return
         // Luodaan uusi pistetaulukko, map-funktiossa jos indeksi on sama kuin
         // tämän hetkinen väylä, muutetaan sitä.
         const newScore = playerScore.map((strokes, i) => {
             if (i !== currentHole - 1) return strokes
+            // jos väylällä on olemassa tulos, muutetaan, muutoin asetetaan väylän tulokseksi par
             return strokes ? strokes + change : course.pars[currentHole - 1].par
         })
         setPlayerScore(newScore)
@@ -113,12 +89,6 @@ const Gameplay = ({ saveScore }) => {
                     )}
                     )
                 </div>
-                {/* <button onClick={handleDecreaseCurrentHole}>&lt;</button>
-                {currentHole === course.pars.length ? (
-                    <button onClick={handleFinishRound}>finish round</button>
-                ) : (
-                    <button onClick={handleIncreaseCurrentHole}>&gt;</button>
-                )} */}
             </div>
             <div className={styles.holeList}>
                 {course.pars.map((p, i) => {

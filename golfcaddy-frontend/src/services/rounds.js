@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3001/api/rounds/'
+const baseUrl = '/api/rounds/'
 const getToken = () => {
     return {
         headers: {
@@ -29,6 +29,9 @@ const create = round => {
     const request = axios.post(baseUrl, round, getToken())
     return request.then(response => response.data)
 }
-
-const rounds = { create, get }
+const remove = id => {
+    const request = axios.delete(`${baseUrl}/${id}`, getToken())
+    return request.then(response => response.data)
+}
+const rounds = { create, get, remove }
 export default rounds

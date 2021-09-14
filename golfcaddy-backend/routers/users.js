@@ -1,22 +1,23 @@
 // Tämä tiedosto vastaa käyttäjiin liittyvistä http-pyynnöistä
-const router = require('express').Router()
-const User = require('../models/user.js')
-const bcrypt = require('bcrypt') //
+const router = require('express').Router() // http-pyyntöjen käsittelyyn
+const User = require('../models/user.js') //  Käyttäjä-instanssien hallintaan
+const bcrypt = require('bcrypt') // salasanan hashaamiseen
 
 // eri http-pyyntöjen käsittelijät
-
 // Lisää käyttäjän
 router.post('/', async (req, res) => {
+    // body sisältää käyttäjän luomiseen tarvittavat tiedot
     const { password, rounds, username } = req.body
 
     // Jos käyttäjä nimi on alle 3 merkkiä pitkä
     if (username.length < 3) {
         return res.status(400).json({ error: 'Username is too short' })
     }
+    // Jos salasana on alle 3 merkkiä pitkä
     if (password.length < 3) {
         return res.status(400).json({ error: 'Password is too short' })
     }
-    // Jos löytyy jo käyttäjä annetulla nimellä, tehdään poikkues
+    // Jos löytyy jo käyttäjä annetulla nimellä, tehdään poikkeus
     const usernameExists = await User.find({ username: username })
     if (usernameExists.length > 0) {
         return res.status(409).json({ error: 'Username is already used' })
@@ -24,6 +25,7 @@ router.post('/', async (req, res) => {
 
     // hashataan salasana
     const passwordHash = await bcrypt.hash(password, 10)
+    // Jos rounds on olemassa käytetään sitä, muutoin tyhjää listaa
     var userRounds = []
     if (rounds) {
         userRounds = rounds

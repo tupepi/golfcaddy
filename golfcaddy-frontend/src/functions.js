@@ -41,12 +41,21 @@ const countPar = scorecard => {
     })
     return totalPar
 }
-
+const formaliziteDate = dateToFormalizite => {
+    const dateAndTime = dateToFormalizite.split('T')
+    const date = dateAndTime[0].split('-')
+    const time = dateAndTime[1].split('.')[0].split(':')
+    const h = parseInt(time[0], 0) + 3
+    const m = time[1]
+    const s = time[2]
+    return date[2] + '/' + date[1] + '/' + date[0] + ' ' + h + ':' + m + ':' + s
+}
 const functions = {
     countRelativeScore,
     formalizeRelativeScore,
     countTotalScore,
     countFormalRelativeScore,
     countPar,
+    formaliziteDate,
 }
 export default functions

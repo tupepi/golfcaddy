@@ -1,10 +1,17 @@
 /* Näyttää yhden pelatun kierroksen tiedot */
 import styles from '../styles/Scorecard.module.css'
 import functions /* { countTotalScore, countFormalRelativeScore } */ from '../functions.js'
-const Scorecard = ({ scorecard }) => {
+const Scorecard = ({ scorecard, deleteScorecard }) => {
     return scorecard ? (
         <div className={styles.scorecard}>
-            <h2>Scorecard</h2>
+            <h2>
+                {scorecard.course.name}
+                <br></br>
+                {functions.formaliziteDate(scorecard.date)}
+            </h2>
+            <button onClick={deleteScorecard} className={styles.deleteButton}>
+                Delete scorecard
+            </button>
             <div>
                 <table>
                     <thead>

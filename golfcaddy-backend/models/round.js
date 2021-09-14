@@ -1,3 +1,4 @@
+// rounds.js luo modelin, jonka avulla voidaan luoda kierrosinstansseja
 const mongoose = require('mongoose') // tietokanta yhteyden kontrollointiin
 // Luodaan skeema pelatulle kierrokselle
 const roundSchema = new mongoose.Schema({

@@ -7,6 +7,8 @@ const Login = ({ login }) => {
     // Kirjautumislomakkeen tiedot
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+
     // jos createNewAccountForm on true, näytetään käyttäjän luomislomakes
     const [createNewAccountForm, setCreateNewAccountForm] = useState(false)
     // Käyttäjän informoiminen
@@ -14,8 +16,9 @@ const Login = ({ login }) => {
     const [notificationStyle, setNotificationStyle] = useState('')
     const [inputStyle, setInputStyle] = useState(styles.input)
 
+    // eri virheiden näyttämiseen
     const error = e => {
-        setNotification(e.response.data.error)
+        setNotification(e)
         setNotificationStyle(styles.error)
         setInputStyle(styles.inputError)
         setTimeout(() => {
@@ -25,6 +28,7 @@ const Login = ({ login }) => {
         }, 2000)
     }
 
+    // käsitellään kirjaantumispyyntö
     const handleLogin = async event => {
         event.preventDefault()
         try {
@@ -33,24 +37,24 @@ const Login = ({ login }) => {
                 password,
             })
         } catch (e) {
-            error(e)
+            error(e.response.data.error)
         }
     }
 
-    const handleShowCreateAccount = () => {
+    // Näytetäänkö käyttäjän lisäämislomake (vai kirjaantumislomake)
+    const handleShowCreateAccount = show => {
         setUsername('')
         setPassword('')
-        setCreateNewAccountForm(true)
-    }
-    const handleCancel = () => {
-        setUsername('')
-        setPassword('')
-        setCreateNewAccountForm(false)
+        setCreateNewAccountForm(show)
     }
 
     /* Luodaan käyttäjä (jos nimi ei ole käytössä). Nollataan lomake */
     const handleCreateAccount = async event => {
         event.preventDefault()
+        if (password !== confirmPassword) {
+            error('Please confirm password')
+            return
+        }
         try {
             await userServices.create({
                 username: username,
@@ -60,7 +64,7 @@ const Login = ({ login }) => {
             setPassword('')
             setCreateNewAccountForm(false)
         } catch (e) {
-            error(e)
+            error(e.response.data.error)
         }
     }
 
@@ -80,7 +84,7 @@ const Login = ({ login }) => {
                 }
             >
                 <div>
-                    <label className={styles.label} htmlFor='username'></label>
+                    <label htmlFor='username'></label>
                     <input
                         className={inputStyle}
                         id='username'
@@ -89,8 +93,8 @@ const Login = ({ login }) => {
                         onChange={({ target }) => setUsername(target.value)}
                     />
                 </div>
-                <div className={styles.group}>
-                    <label className={styles.label} htmlFor='password'></label>
+                <div>
+                    <label htmlFor='password'></label>
                     <input
                         type='password'
                         className={inputStyle}
@@ -100,6 +104,21 @@ const Login = ({ login }) => {
                         onChange={({ target }) => setPassword(target.value)}
                     />
                 </div>
+                {createNewAccountForm ? (
+                    <div>
+                        <label htmlFor='confirmPassword'></label>
+                        <input
+                            type='password'
+                            className={inputStyle}
+                            id='confirmPassword'
+                            placeholder='confirm password'
+                            value={confirmPassword}
+                            onChange={({ target }) =>
+                                setConfirmPassword(target.value)
+                            }
+                        />
+                    </div>
+                ) : null}
                 <div className={styles.formButton}>
                     {createNewAccountForm ? (
                         <button onClick={handleCreateAccount}>create</button>
@@ -111,9 +130,11 @@ const Login = ({ login }) => {
             <div className={notificationStyle}>{notification}</div>
             <div className={styles.cancelButton}>
                 {createNewAccountForm ? (
-                    <button onClick={handleCancel}>cancel</button>
+                    <button onClick={() => handleShowCreateAccount(false)}>
+                        cancel
+                    </button>
                 ) : (
-                    <button onClick={handleShowCreateAccount}>
+                    <button onClick={() => handleShowCreateAccount(true)}>
                         create new account
                     </button>
                 )}
