@@ -1,47 +1,60 @@
-.Courses,
-.NewGame {
-    margin-top: 5%;
-    height: 95%;
+/* Ratalistaus sivun korkein divi  */
+.Courses {
+    margin-top: 5%; /* yläreunaan vähän väliä, jotta ei jää kiinteiden nappien alle */
+    height: 95%; /* ei ihan koko ruudun kokoiseksi */
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: column;
+    justify-content: space-around; /* otsikon, listan ja nappien välissä taasaisesti tilaa  */
+    align-items: center; /* vaakasuunnassa keskilinjalla */
+    flex-direction: column; /* allekkain */
 }
 
+/* lista radoista */
 .courseListingDiv {
-    text-align: center;
+    border: solid; /* paksumpi reuna listan ympärille */
+    border-width: 3px;
+
+    text-align: center; /* teksti keskellä lista elementtiä */
     width: 100%;
-    height: 50%;
+    height: 300px; /* kiinteä korkeus */
+    max-height: 300px;
+    min-height: 300px;
+
+    overflow-y: scroll; /* lista skrollatava tarpeeksi pitkänä */
+    overflow-x: hidden;
+
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: column; /* Listan elementit allekkain */
+    align-items: center; /* keskilinjalle vaakasuunnassa */
 }
-.courseListingDiv div {
-    font-size: 140%;
-}
+/* Listan elementit */
 .course {
-    height: 50px;
+    font-size: 140%; /* iso fontti radan nimessä */
+    min-height: 50px; /* Kiinteä korkeus */
     width: 100%;
-    border: solid;
+    border: solid; /* Ohuempi reuna radoille*/
     border-width: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* Pelin aloitusnappi, myös radan muokkausnappi */
 .startNewGameButton {
-    width: 50%;
-    height: 100%;
+    width: 60%;
+    height: 25%;
     padding: 5%;
-    margin: 5%;
+    margin-top: 5%;
 }
 
+/* Radan lisäysnappi */
 .addNewCourseButton {
-    width: 50%;
-    height: 100%;
-    margin: 5%;
+    width: 60%;
+    height: 25%;
     padding: 5%;
+    margin-top: 5%;
 }
+
+/* Filter inputti kinteäst oikeaan yläkulmaan */
 .filter {
     position: fixed;
     height: 5%;

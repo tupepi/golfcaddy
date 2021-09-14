@@ -11,7 +11,7 @@ enter avulla voidaan määrätä näytettäväksi radan lisäämislomake tai pel
 */
 const CourseListing = ({ enterNewGame, enter }) => {
     // Radat listattuna
-    const [courses, setCourses] = useState([])
+    const [courses, setCourses] = useState(null)
     // näytetään vain radat joiden nimi sisältää merkkijonon
     const [filter, setFilter] = useState('')
     // käyttäjän täytyy valita, jokin rata ja sitten hyväksyä valinta, oletuksena ei mikään valittuna
@@ -123,8 +123,38 @@ const CourseListing = ({ enterNewGame, enter }) => {
             </button>
         )
     }
+
+    // Palautetaan listassa radat
+    const coursesMapped = () => {
+        return courses.map(c => {
+            if (
+                c.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+            ) {
+                return (
+                    <div
+                        style={
+                            // Jos kyseinen rata on valittu rata, laitetaan taustaksi harmaampi
+                            selectedCourse
+                                ? c.name === selectedCourse.name
+                                    ? { backgroundColor: '#B6B6B6' }
+                                    : null
+                                : null
+                        }
+                        className={styles.course}
+                        key={c.name}
+                        onClick={() => {
+                            handleCourseClick(c)
+                        }}
+                    >
+                        <span>{c.name}</span>
+                    </div>
+                )
+            }
+            return null
+        })
+    }
     return (
-        <div className={styles.NewGame}>
+        <div className={styles.Courses}>
             <input
                 className={styles.filter}
                 placeholder='filter'
@@ -139,34 +169,17 @@ const CourseListing = ({ enterNewGame, enter }) => {
                 )
             }
             <div className={styles.courseListingDiv}>
-                {courses.map(c => {
-                    if (
-                        c.name
-                            .toLocaleLowerCase()
-                            .includes(filter.toLocaleLowerCase())
-                    ) {
-                        return (
-                            <div
-                                style={
-                                    // Jos kyseinen rata on valittu rata, laitetaan taustaksi harmaampi
-                                    selectedCourse
-                                        ? c.name === selectedCourse.name
-                                            ? { backgroundColor: '#B6B6B6' }
-                                            : null
-                                        : null
-                                }
-                                className={styles.course}
-                                key={c.name}
-                                onClick={() => {
-                                    handleCourseClick(c)
-                                }}
-                            >
-                                <span>{c.name}</span>
-                            </div>
-                        )
-                    }
-                    return null
-                })}
+                {courses ? (
+                    coursesMapped()
+                ) : (
+                    <div className='lds-ring'>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                )}
+                {/*Lähde: https://loading.io/css/ CC0 Lisenssillä*/}
             </div>
 
             {selectedCourse ? courseButtons() : null}

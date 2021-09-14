@@ -1,30 +1,36 @@
+/* Pelitilanteen sisältävä div */
 .gamePlayDiv {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10%;
-    height: 90%;
+    flex-direction: column; /* Allekkain ovat: otsikko, pisteen syöttö, tiedot ja väylän valinta */
+    align-items: center; /* Keskilinjassa, leveysuunnassa */
+    justify-content: space-between; /* tasaisesti välitettynä */
+    margin-top: 10%; /* yläreunaan hieman tilaa */
+    height: 90%; /* yläreunan marginin takia vähän tiivimmäksi */
 }
+
+/* pisteensyöttö */
 .holeScoreDiv {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 95%;
-    height: 25%;
+    align-items: center; /* Pystysuunnassa keskellä */
+    justify-content: space-between; /* napit ovat reunoilla, mutta väleissä on tilaa */
+    width: 95%; /* ei täysin koko ruudun leveydessä */
+    height: 25%; /* otetaan korkeutta */
 }
+
+/* kaksi nappia, ja väylän tulos */
 .holeScoreDiv > * {
     font-size: large;
-    width: 25%;
+    width: 25%; /* Varmistetaan, että ovat leveitä */
     text-align: center;
-    height: 100%;
+    height: 100%; /* Varmistetaan että ovat korkeita */
 }
 
 .currentHoleScore {
-    height: 50%;
+    height: 50%; /* pakotetaan keskelle pystysuunnassa */
     font-size: 5rem;
 }
 
+/* väylän tiedot ja kokonais score */
 .holeInformationDiv {
     display: flex;
     align-items: center;
@@ -33,6 +39,7 @@
     height: 15%;
 }
 
+/* kierroksen lopetus-nappi, kiinteänä yläoikealla  */
 .finishRound {
     position: fixed;
     height: 5%;
@@ -40,10 +47,12 @@
     right: 0;
 }
 
+/* Väylän numero isolla */
 .holeDiv {
     font-size: xx-large;
 }
 
+/* Scrollatava poikittainen lista väylistä */
 .holeList {
     overflow: scroll;
     text-align: center;
@@ -53,6 +62,7 @@
     display: flex;
 }
 
+/* yksittäinen väylä listassa */
 .holeList div {
     display: flex;
     align-items: center;

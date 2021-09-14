@@ -1,24 +1,24 @@
+/* Päävalikon ylin divi */
 .Mainmenu {
-    /* Otsikko ja napit ovat allekkain  */
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+    flex-direction: column; /* otsikko ja napit ovat allekkain */
+    align-items: center; /* keskilinjassa leveys suunnassa */
+    justify-content: center; /* otsikko ja napit ovat pystysuunnassa keskellä */
+    height: 100%; /* päävalikko on koko ruudun korkuinen  */
 }
 
+/* Div, mikä sisältää valikon napit */
 .mainMenuButtons {
-    /* Napit ovat keskenään allekkain  */
-
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 60%;
-    width: 60%;
-    max-width: 300px;
+    flex-direction: column; /* napit ovat allekkain */
+    justify-content: space-between; /*napit ovat tasasin väliajoin*/
+    align-items: center; /* napit ovat leveydellisesti keskilinhassa */
+    height: 60%; /* Antaa tilaa napeille*/
+    width: 80%; /* määrää nappien leveyden suhteessa ruutuun */
+    max-width: 300px; /* Ei venytetä liikaa */
 }
 
+/* kaikki napit */
 .mainMenuButtons button {
     /* Napit täyttävät leveydellään oman Divinsä,
     korkeudella eivät, 

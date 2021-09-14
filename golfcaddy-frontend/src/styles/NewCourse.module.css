@@ -89,24 +89,3 @@
     height: 5%;
     align-self: center;
 }
-/* -------------------------- */
-
-/* scorecard listaus -------------------------- */
-.Scorecards {
-    height: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: column;
-}
-
-.scorecardListingDiv {
-    height: 80%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.scorecardListingDiv div {
-    font-size: 140%;
-    margin-bottom: 5%;
-}
