@@ -19,6 +19,11 @@ router.get('/:id', async (req, res) => {
 
 // lähettää annetun radan tietokantaan
 router.post('/', async (req, res) => {
+    // Radan nimen tulee olla uniikki
+    const courses = await Course.find({ name: req.body.name })
+    if (courses.length > 0) {
+        return res.status(400).json({ error: 'Course with same name exists' })
+    }
     // luodaan pyynnön mukana tulleesta oliosta rata
     const newCourse = new Course(req.body)
     // tallennetaan, varmistetaan että tallennus on ohi
