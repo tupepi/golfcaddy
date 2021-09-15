@@ -45,6 +45,15 @@ router.post('/', async (req, res) => {
     if (userId !== req.body.player) {
         return res.status(401)
     }
+
+    // Ajankohdan tulee olla uniikki
+    const rounds = await Round.find({ date: new Date(req.body.date) })
+    if (rounds.length > 0) {
+        return res
+            .status(400)
+            .json({ error: 'Scorecard with same date exists' })
+    }
+
     const newRound = new Round(req.body)
     // tallennetaan, varmistetaan että tallennus on ohi
     const savedRound = await newRound.save()
