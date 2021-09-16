@@ -60,7 +60,7 @@ const Scorecards = ({ enter, rounds, deleteRound }) => {
         <div className={styles.Scorecards}>
             {isSortedByDate ? (
                 <button
-                    className={styles.sortButton}
+                    className='rightTopCorner'
                     onClick={() => {
                         setSortedRounds(sortByDate(rounds))
                         setIsSortedByDate(!isSortedByDate)

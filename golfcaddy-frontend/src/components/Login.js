@@ -70,11 +70,7 @@ const Login = ({ login }) => {
 
     return (
         <div className={styles.login}>
-            {createNewAccountForm ? (
-                <h2>Create new account</h2>
-            ) : (
-                <h2>Login</h2>
-            )}
+            {createNewAccountForm ? <h2>New account</h2> : <h2>Login</h2>}
             <form
                 className={styles.form}
                 onSubmit={() =>

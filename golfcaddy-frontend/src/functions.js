@@ -41,6 +41,16 @@ const countPar = scorecard => {
     })
     return totalPar
 }
+
+// par radalle
+const countCoursePar = scorecard => {
+    var totalPar = 0
+    scorecard.course.pars.map(par => {
+        return (totalPar += par.par)
+    })
+    return totalPar
+}
+
 const formaliziteDate = dateToFormalizite => {
     const dateAndTime = dateToFormalizite.split('T')
     const date = dateAndTime[0].split('-')
@@ -57,5 +67,6 @@ const functions = {
     countFormalRelativeScore,
     countPar,
     formaliziteDate,
+    countCoursePar,
 }
 export default functions

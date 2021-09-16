@@ -18,6 +18,16 @@ html,
     top: 0;
     left: 0;
 }
+
+/* vastaavasti kuin paluunappi, 
+jotkin asiat ovat kiintesti oikealla ylhäällä */
+.rightTopCorner {
+    position: fixed;
+    height: 5%;
+    top: 0;
+    right: 0;
+}
+
 /* Tässä voidaan tyylitellä yleisesti sovelluksen nappeja, huom ei niiden kokoa! */
 button {
     border: none;
@@ -25,6 +35,39 @@ button {
     border-radius: 4px;
     box-shadow: 2px 2px 2px #9e9e9e;
 }
+
+/* Sovellus on ensisijaisesti mobiiliruuduille, mutta isommille ruuduille tässä "korjauksia" */
+@media only screen and (min-width: 700px) {
+    body {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    #root {
+        max-width: 2000px;
+        min-width: 50%;
+    }
+    .backButton {
+        position: fixed;
+        height: 5%;
+        top: 0;
+        left: 15%;
+    }
+    .rightTopCorner {
+        position: fixed;
+        height: 5%;
+        top: 0;
+        right: 15%;
+    }
+}
+
+@media only screen and (max-height: 550px) {
+    #root {
+        min-height: 550px;
+        overflow: scroll;
+    }
+}
+
 /* https://loading.io/css/ Lataus animaatio --------------------------------------------- */
 .lds-ring {
     display: inline-block;
@@ -62,22 +105,3 @@ button {
     }
 }
 /* ---------------------------------------- */
-/* Sovellus on ensisijaisesti mobiiliruuduille, mutta isommille ruuduille tässä "korjauksia" */
-@media only screen and (min-width: 700px) {
-    body {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-    }
-    #root {
-        max-width: 2000px;
-        min-width: 50%;
-    }
-}
-
-@media only screen and (max-height: 550px) {
-    #root {
-        min-height: 550px;
-        overflow: scroll;
-    }
-}

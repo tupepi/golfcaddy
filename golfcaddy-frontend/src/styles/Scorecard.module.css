@@ -13,7 +13,8 @@
 .scorecard div {
     width: 100%;
     height: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .scorecard div table {
@@ -23,10 +24,4 @@
 }
 .scorecardRow {
     height: 40px;
-}
-.deleteButton {
-    position: fixed;
-    height: 5%;
-    top: 0;
-    right: 0;
 }

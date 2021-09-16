@@ -16,10 +16,12 @@
     width: 100%; /* koko näytön levyiseksi */
     height: 80%; /* ottaa haltuun koko näytöstä 80% korkeudellaan */
     max-height: 400px; /* Kiinteä maksimi korkeus */
+    min-height: 400px;
     flex-direction: column; /* Tulokset allekkain */
     align-items: center; /* keskilinjassa leveyssuunnassa */
 
     overflow-y: scroll; /* Tehdään listasta skrollata, jos on tarpeeksi pitkä */
+    overflow-x: hidden; /* Tehdään listasta skrollata, jos on tarpeeksi pitkä */
 }
 /* yksittäinen tulos listassa */
 .scorecardListingDiv div {
@@ -29,11 +31,4 @@
     width: 100%;
     font-size: 140%; /* isolla tekstillä */
     /* margin-bottom: 5%; */ /* vähän väliä alla olevaan */
-}
-/* lajittelun valintanappi, kiinteänä yläoikealla */
-.sortButton {
-    position: fixed;
-    height: 5%;
-    top: 0;
-    right: 0;
 }

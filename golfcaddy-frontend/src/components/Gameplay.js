@@ -63,7 +63,7 @@ const Gameplay = ({ saveScore }) => {
 
     return course ? (
         <div className={styles.gamePlayDiv}>
-            <button className={styles.finishRound} onClick={handleFinishRound}>
+            <button className='rightTopCorner' onClick={handleFinishRound}>
                 finish round
             </button>
             <h2>{course.name}</h2>

@@ -156,7 +156,7 @@ const CourseListing = ({ enterNewGame, enter }) => {
     return (
         <div className={styles.Courses}>
             <input
-                className={styles.filter}
+                className='rightTopCorner'
                 placeholder='filter'
                 value={filter}
                 onChange={({ target }) => setFilter(target.value)}

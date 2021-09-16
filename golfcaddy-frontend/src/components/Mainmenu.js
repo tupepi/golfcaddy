@@ -82,6 +82,9 @@ const Mainmenu = ({ loggedUser, logout }) => {
     }
 
     const deleteRound = async id => {
+        if (!window.confirm('Delete this scorecard?')) {
+            return
+        }
         await roundsService.remove(id)
         const newRounds = rounds.filter(r => r._id !== id)
         setRounds(newRounds)

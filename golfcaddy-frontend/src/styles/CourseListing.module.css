@@ -53,11 +53,3 @@
     padding: 5%;
     margin-top: 5%;
 }
-
-/* Filter inputti kinteäst oikeaan yläkulmaan */
-.filter {
-    position: fixed;
-    height: 5%;
-    top: 0;
-    right: 0;
-}

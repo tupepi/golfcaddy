@@ -9,7 +9,7 @@ const Scorecard = ({ scorecard, deleteScorecard }) => {
                 <br></br>
                 {functions.formaliziteDate(scorecard.date)}
             </h2>
-            <button onClick={deleteScorecard} className={styles.deleteButton}>
+            <button onClick={deleteScorecard} className='rightTopCorner'>
                 Delete scorecard
             </button>
             <div>
@@ -33,7 +33,9 @@ const Scorecard = ({ scorecard, deleteScorecard }) => {
                             <td>
                                 <b>total</b>
                             </td>
-                            <td>{functions.countPar(scorecard)}</td>
+                            <td>{`${functions.countPar(
+                                scorecard
+                            )}/${functions.countCoursePar(scorecard)}`}</td>
                             <td>
                                 {functions.countTotalScore(scorecard.score)} (
                                 {functions.countFormalRelativeScore(
