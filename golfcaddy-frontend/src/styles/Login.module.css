@@ -6,6 +6,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     font-size: x-large;
 }
 
@@ -23,6 +24,9 @@
     border: none;
     border-bottom: solid;
     border-color: red;
+    height: 100%;
+    width: 100%;
+    font-size: x-large;
 }
 /* virhe punaisella tesktillä */
 .error {

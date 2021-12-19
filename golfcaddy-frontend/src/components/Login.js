@@ -13,17 +13,14 @@ const Login = ({ login }) => {
     const [createNewAccountForm, setCreateNewAccountForm] = useState(false)
     // Käyttäjän informoiminen
     const [notification, setNotification] = useState('')
-    const [notificationStyle, setNotificationStyle] = useState('')
     const [inputStyle, setInputStyle] = useState(styles.input)
 
     // eri virheiden näyttämiseen
     const error = e => {
         setNotification(e)
-        setNotificationStyle(styles.error)
         setInputStyle(styles.inputError)
         setTimeout(() => {
             setNotification('')
-            setNotificationStyle('')
             setInputStyle(styles.input)
         }, 2000)
     }
@@ -123,7 +120,7 @@ const Login = ({ login }) => {
                     )}
                 </div>
             </form>
-            <div className={notificationStyle}>{notification}</div>
+            <div className={styles.error}>{notification}</div>
             <div className={styles.cancelButton}>
                 {createNewAccountForm ? (
                     <button onClick={() => handleShowCreateAccount(false)}>
