@@ -21,7 +21,7 @@ mongoose.connect(mongoURL, {
 })
 
 const port = process.env.PORT || 3001 // portin numero
-/* app.use(express.static('build')) // kun halutaan käyttää käyttöliittymän buildia */
+app.use(express.static('build')) // kun halutaan käyttää käyttöliittymän buildia
 app.use(cors()) // corsin käyttöön otto
 app.use(express.json()) // pyyntöjen mukana tuleva Json-data muunnetaan js-olioksi
 
